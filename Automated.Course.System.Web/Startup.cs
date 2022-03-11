@@ -1,3 +1,8 @@
+using Automated.Course.System.BLL.Interfaces;
+using Automated.Course.System.BLL.Services;
+using Automated.Course.System.DAL.Interfaces;
+using Automated.Course.System.DAL.Repositories;
+using Automated.Course.System.Settings.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +29,13 @@ namespace Automated.Course.System.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            var section = Configuration.GetSection(nameof(AppSettings));
+            var appSettings = section.Get<AppSettings>();
+            services.AddSingleton(appSettings);
+
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ICourseService, CourseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
