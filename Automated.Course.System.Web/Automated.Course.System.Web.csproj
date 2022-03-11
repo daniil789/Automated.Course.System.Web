@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Automated.Course.System.BLL\Automated.Course.System.BLL.csproj" />
+    <ProjectReference Include="..\Automated.Course.System.Settings\Automated.Course.System.Settings.csproj" />
   </ItemGroup>
 
 </Project>
