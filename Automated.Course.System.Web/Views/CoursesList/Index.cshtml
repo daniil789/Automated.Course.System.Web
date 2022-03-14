@@ -1,0 +1,15 @@
+﻿@model List<CourseViewModel>
+@{
+    ViewData["Title"] = "Courses";
+}
+@foreach (var course in Model)
+{
+    <div class="courses">
+        <img src="~/Assets/Course.jpg" />
+        <b><p class="coursename">@course.Name</p></b>
+        <p>@course.Discription</p>
+    </div>
+}
+<div>
+
+</div>
