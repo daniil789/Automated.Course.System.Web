@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Automated.Course.System.Settings\Automated.Course.System.Settings.csproj" />
+    <ProjectReference Include="..\Automated.Course.System.Settings\Automated.Course.System.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

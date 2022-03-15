@@ -2,7 +2,7 @@ using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.BLL.Services;
 using Automated.Course.System.DAL.Interfaces;
 using Automated.Course.System.DAL.Repositories;
-using Automated.Course.System.Settings.Settings;
+using Automated.Course.System.Settings.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

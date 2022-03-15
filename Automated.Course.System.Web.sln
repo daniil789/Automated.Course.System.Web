@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automated.Course.System.BLL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automated.Course.System.DAL", "Automated.Course.System.DAL\Automated.Course.System.DAL.csproj", "{965C220F-3002-4E42-BCE7-C3F5683B9C3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automated.Course.System.Settings", "Automated.Course.System.Settings\Automated.Course.System.Settings.csproj", "{0E4C202F-3602-4168-852D-7EBE1C5A68B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Automated.Course.System.Extensions", "Automated.Course.System.Settings\Automated.Course.System.Extensions.csproj", "{0E4C202F-3602-4168-852D-7EBE1C5A68B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

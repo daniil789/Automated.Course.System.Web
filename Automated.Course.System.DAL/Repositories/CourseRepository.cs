@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Automated.Course.System.Settings.Settings;
+using Automated.Course.System.Settings.Extensions;
 using Npgsql;
 
 namespace Automated.Course.System.DAL.Repositories
@@ -43,6 +43,7 @@ namespace Automated.Course.System.DAL.Repositories
                     result.Add(new Entities.Course { Id = reader.GetInt32(0), Name = reader.GetString(1), Discription = reader.GetString(2), LanguageId = reader.GetInt32(3) });
                 }
             }
+            await conn.CloseAsync();
 
             return result;
         }
