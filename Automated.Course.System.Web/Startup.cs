@@ -3,6 +3,7 @@ using Automated.Course.System.BLL.Services;
 using Automated.Course.System.DAL.Interfaces;
 using Automated.Course.System.DAL.Repositories;
 using Automated.Course.System.Settings.Extensions;
+using Automated.Course.System.Web.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,8 @@ namespace Automated.Course.System.Web
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseService, CourseService>();
+
+            services.AddAutoMapper(typeof(AppMappingProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

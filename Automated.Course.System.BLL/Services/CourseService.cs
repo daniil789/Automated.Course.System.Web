@@ -1,4 +1,5 @@
-﻿using Automated.Course.System.BLL.DTO;
+﻿using AutoMapper;
+using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Interfaces;
 using System;
@@ -11,10 +12,13 @@ namespace Automated.Course.System.BLL.Services
 {
     public class CourseService : ICourseService
     {
-        ICourseRepository _courseRepository;
-        public CourseService(ICourseRepository courseRepository)
+        private readonly ICourseRepository _courseRepository;
+        private readonly IMapper _mapper;
+
+        public CourseService(ICourseRepository courseRepository, IMapper mapper)
         {
             _courseRepository = courseRepository;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<CourseDTO>> GetAll()
@@ -24,8 +28,7 @@ namespace Automated.Course.System.BLL.Services
 
             foreach (var course in courses)
             {
-                var courseDTO = new CourseDTO() {Id = course.Id, Name = course.Name, Discription = course.Discription };
-                result.Add(courseDTO);
+                result.Add(_mapper.Map<CourseDTO>(course));
             }
 
             return result;

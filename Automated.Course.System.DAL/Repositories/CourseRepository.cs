@@ -11,7 +11,7 @@ namespace Automated.Course.System.DAL.Repositories
 {
     public class CourseRepository : ICourseRepository
     {
-        private AppSettings _settings;
+        private readonly AppSettings _settings;
 
         public CourseRepository(AppSettings settings)
         {
@@ -35,7 +35,7 @@ namespace Automated.Course.System.DAL.Repositories
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand("SELECT Id, Name, discription, Language_id FROM Courses", conn))
+            using (var cmd = new NpgsqlCommand(Queries.GetAllCoursesQuerie, conn))
             using (var reader = await cmd.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())

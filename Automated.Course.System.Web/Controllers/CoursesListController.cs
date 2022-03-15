@@ -1,4 +1,5 @@
-﻿using Automated.Course.System.BLL.Interfaces;
+﻿using AutoMapper;
+using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,11 +11,13 @@ namespace Automated.Course.System.Web.Controllers
 {
     public class CoursesListController : Controller
     {
-        ICourseService _courseService;
+        private readonly ICourseService _courseService;
+        private readonly IMapper _mapper;
 
-        public CoursesListController(ICourseService courseService)
+        public CoursesListController(ICourseService courseService, IMapper mapper)
         {
             _courseService = courseService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -23,8 +26,8 @@ namespace Automated.Course.System.Web.Controllers
             var courses = await _courseService.GetAll();
             foreach (var course in courses)
             {
-                var item = new CourseViewModel() { Id = course.Id, Name = course.Name, Discription = course.Discription };
-                result.Add(item);
+
+                result.Add(_mapper.Map<CourseViewModel>(course));
             }
 
             return View(result);
