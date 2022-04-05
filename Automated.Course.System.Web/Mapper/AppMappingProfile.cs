@@ -16,6 +16,7 @@ namespace Automated.Course.System.Web.Mapper
         {
             CreateMap<DAL.Entities.Course, CourseDTO>();
             CreateMap<CourseDTO, CourseViewModel>();
+            CreateMap<DAL.Entities.Language, LanguageDTO>();
         }
     }
 }

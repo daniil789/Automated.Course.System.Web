@@ -37,6 +37,8 @@ namespace Automated.Course.System.Web
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ILanguageRepository, LanguageRepository>();
+            services.AddScoped<ILanguageService, LanguageService>();
 
             services.AddAutoMapper(typeof(AppMappingProfile));
         }
