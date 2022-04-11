@@ -102,11 +102,10 @@ namespace Automated.Course.System.DAL.EF
                     .HasMaxLength(100)
                     .HasColumnName("name");
 
-                entity.HasOne(d => d.Language)
-                    .WithMany(p => p.Courses)
-                    .HasForeignKey(d => d.LanguageId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_course_language");
+                //entity.HasOne(d => d.Language)
+                //    .HasForeignKey(d => d.LanguageId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("fk_course_language");
             });
 
             modelBuilder.Entity<CourseUserReference>(entity =>

@@ -1,4 +1,5 @@
-﻿@model List<CourseViewModel>
+﻿@inject Automated.Course.System.BLL.Interfaces.ILanguageService LanguageService
+@model List<CourseViewModel>
 @{
     ViewData["Title"] = "Courses";
 }
@@ -7,6 +8,7 @@
     <div class="courses">
         <img src="~/Assets/Course.jpg" />
         <b><p class="coursename">@course.Name</p></b>
+        <p>Курс на языке @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
         <p>@course.Discription</p>
     </div>
 }

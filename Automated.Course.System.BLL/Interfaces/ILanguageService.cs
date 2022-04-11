@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Automated.Course.System.BLL.Interfaces
 {
-    public interface ICourseService
+    public interface ILanguageService
     {
-        Task<IEnumerable<CourseDTO>> GetAll();
-        Task CreateCourse(CourseDTO course);
+        List<LanguageDTO> GetAll();
+        LanguageDTO GetLanguageById(int id);
     }
 }

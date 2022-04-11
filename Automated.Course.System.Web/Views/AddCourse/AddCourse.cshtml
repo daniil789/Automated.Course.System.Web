@@ -1,0 +1,32 @@
+﻿@model AddCourseViewModel
+@{
+    ViewData["Title"] = "AddCourse";
+}
+
+<div>
+    <form method="post">
+        <p>
+            <label>Название:</label><br />
+            <input type="text" name="name" />
+        </p>
+
+        <p>
+            <label>Описание:</label><br />
+            <input type="text" name="description" />
+        </p>
+
+        <p>
+            <label>Язык:</label><br />
+            <select name="language">
+                @foreach (var item in Model.Languages)
+                {
+                    <option value="@item.Id">@item.LanguageName</option>
+                }
+            </select>
+        </p>
+
+        <p>
+            <input type="submit" value="Создать" />
+        </p>
+    </form>
+</div>

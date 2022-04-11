@@ -13,11 +13,13 @@ namespace Automated.Course.System.Web.Controllers
     {
         private readonly ICourseService _courseService;
         private readonly IMapper _mapper;
+        private readonly ILanguageService _languageService;
 
-        public CoursesListController(ICourseService courseService, IMapper mapper)
+        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService )
         {
             _courseService = courseService;
             _mapper = mapper;
+            _languageService = languageService;
         }
 
         public async Task<IActionResult> Index()
@@ -27,18 +29,10 @@ namespace Automated.Course.System.Web.Controllers
             foreach (var course in courses)
             {
 
-                result.Add(_mapper.Map<CourseViewModel>(course));
+                result.Add(new CourseViewModel { Name = course.Name, Discription = course.Discription, LanguageId = course.LanguageId });
             }
 
             return View(result);
         }
-
-        public async Task<IActionResult> AddCourse()
-        {
-            return Content("Ещё не сделано(");
-
-        }
-
-
     }
 }
