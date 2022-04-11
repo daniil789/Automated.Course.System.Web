@@ -21,6 +21,11 @@ namespace Automated.Course.System.BLL.Services
             _mapper = mapper;
         }
 
+        public async Task CreateCourse(CourseDTO course)
+        {
+            await _courseRepository.Create(_mapper.Map<DAL.Entities.Course>(course));
+        }
+
         public async Task<IEnumerable<CourseDTO>> GetAll()
         {
             var result = new List<CourseDTO>();

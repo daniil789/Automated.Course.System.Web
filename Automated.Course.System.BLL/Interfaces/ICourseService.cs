@@ -10,5 +10,6 @@ namespace Automated.Course.System.BLL.Interfaces
     public interface ICourseService
     {
         Task<IEnumerable<CourseDTO>> GetAll();
+        Task CreateCourse(CourseDTO course);
     }
 }

@@ -18,9 +18,17 @@ namespace Automated.Course.System.DAL.Repositories
             _settings = settings;
         }
 
-        public Task Create(Entities.Course item)
+        public async Task Create(Entities.Course item)
         {
-            throw new NotImplementedException();
+            var conn = new NpgsqlConnection(_settings.ConnectionString);
+            await conn.OpenAsync();
+
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertCourse, item.Name, item.Discription, item.LanguageId), conn))
+            {
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            await conn.CloseAsync();
         }
 
         public Task Delete(int id)

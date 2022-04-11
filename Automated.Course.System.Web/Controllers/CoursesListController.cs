@@ -29,18 +29,10 @@ namespace Automated.Course.System.Web.Controllers
             foreach (var course in courses)
             {
 
-                result.Add(new CourseViewModel { Name = course.Name, Discription = course.Discription, Language = _languageService.GetLanguageById(course.LanguageId).LanguageName });
+                result.Add(new CourseViewModel { Name = course.Name, Discription = course.Discription, LanguageId = course.LanguageId });
             }
 
             return View(result);
         }
-
-        public async Task<IActionResult> AddCourse()
-        {
-            return Content("Ещё не сделано(");
-
-        }
-
-
     }
 }

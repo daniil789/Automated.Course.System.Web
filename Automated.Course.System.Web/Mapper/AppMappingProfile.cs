@@ -15,8 +15,10 @@ namespace Automated.Course.System.Web.Mapper
         public AppMappingProfile()
         {
             CreateMap<DAL.Entities.Course, CourseDTO>();
+            CreateMap<CourseDTO, DAL.Entities.Course>();
             CreateMap<CourseDTO, CourseViewModel>();
             CreateMap<DAL.Entities.Language, LanguageDTO>();
+            CreateMap<LanguageDTO, LanguageViewModel>();
         }
     }
 }
