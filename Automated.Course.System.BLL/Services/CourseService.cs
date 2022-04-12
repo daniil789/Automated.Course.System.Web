@@ -26,6 +26,11 @@ namespace Automated.Course.System.BLL.Services
             await _courseRepository.Create(_mapper.Map<DAL.Entities.Course>(course));
         }
 
+        public async Task DeleteCourse(int id)
+        {
+            await _courseRepository.Delete(id);
+        }
+
         public async Task<IEnumerable<CourseDTO>> GetAll()
         {
             var result = new List<CourseDTO>();

@@ -3,15 +3,38 @@
 @{
     ViewData["Title"] = "Courses";
 }
-@foreach (var course in Model)
-{
-    <div class="courses">
-        <img src="~/Assets/Course.jpg" />
-        <b><p class="coursename">@course.Name</p></b>
-        <p>Курс на языке @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
-        <p>@course.Discription</p>
-    </div>
-}
-<div>
+<script type="text/javascript">
+    function deleteById(id) {
+        console.log(id);
+        const queryForDelete = "/CoursesList/DeleteCourse?id=" + id;
 
-</div>
+        result = confirm("Удалить?");
+
+        if (result)
+            fetch(queryForDelete);
+ 
+
+    }
+</script>
+@if (Model.Count != 0)
+{
+    @foreach (var course in Model)
+    {
+        <div class="course">
+            <div>
+                <p class="deletebutton">
+                    <!-- <a asp-action="DeleteCourse" asp-route-id="//course.Id" asp-controller="CoursesList">--><img src="~/Assets/ico_cross.png" width="20" height="20" align="right" onclick="deleteById(@course.Id)" /><!--</a>-->
+                </p>
+            </div>
+            <img src="~/Assets/Course.jpg" />
+            <b><p id="course" class="coursename">@course.Name</p></b>
+            <p>Курс на языке @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
+            <p>@course.Discription</p>
+        </div>
+    }
+}
+@if (Model.Count == 0)
+{
+    <p class="display-4">У вас пока нет курсов</p>
+}
+

@@ -1,16 +1,24 @@
-﻿@{
+﻿@inject Automated.Course.System.BLL.Interfaces.ILanguageService LanguageService
+@model List<CourseViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-<div class="mainmenu">
-    <div>
-        <a asp-controller="AddCourse" asp-action="AddCourse"><img width="300" height="300" src="~/Assets/Add.jpg" /></a>
-    </div>
-    <div>
-        <a asp-action="Index" asp-controller="CoursesList"><img width="300" height="300" src="~/Assets/Courses.jpg" /> </a>
-    </div>
+@if (Model.Count != 0)
+{
+    @foreach (var course in Model)
+    {
+<div class="course">
+    <img src="~/Assets/Course.jpg"/>
+    <b><p id="course" class="coursename">@course.Name</p></b>
+    <p class="coursediscription">@course.Discription</p>
+    <p class="courselanguage">@LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
 </div>
+    }
+}
+@if (Model.Count == 0)
+{
+    <p class="display-4">У вас пока нет курсов</p>
+}

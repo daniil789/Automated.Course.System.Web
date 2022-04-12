@@ -31,9 +31,17 @@ namespace Automated.Course.System.DAL.Repositories
             await conn.CloseAsync();
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            var conn = new NpgsqlConnection(_settings.ConnectionString);
+            await conn.OpenAsync();
+
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.DeleteCourseByIdQuery, id), conn))
+            {
+                await cmd.ExecuteNonQueryAsync();
+            }
+
+            await conn.CloseAsync();
         }
 
         public async Task<IEnumerable<Entities.Course>> GetAll()
@@ -43,7 +51,7 @@ namespace Automated.Course.System.DAL.Repositories
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand(Queries.GetAllCoursesQuerie, conn))
+            using (var cmd = new NpgsqlCommand(Queries.GetAllCoursesQuery, conn))
             using (var reader = await cmd.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())

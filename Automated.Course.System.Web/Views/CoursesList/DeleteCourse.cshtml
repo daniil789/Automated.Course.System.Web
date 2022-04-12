@@ -1,0 +1,26 @@
+﻿@model Automated.Course.System.Web.Models.CourseViewModel
+@{
+    ViewBag.Title = "Удаление курса";
+}
+
+<div class="test">
+    <dl class="dl-horizontal">
+        <dt>Название</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>Описание</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Discription)
+        </dd>
+    </dl>
+
+    <div>
+        <form asp-controller="CoursesList" asp-action="DeleteCourse" method="post">
+            <div class="form-group">
+                <input type="submit" class="btn btn-default" value="Удалить" />
+            </div>
+        </form>
+    </div>
+</div>

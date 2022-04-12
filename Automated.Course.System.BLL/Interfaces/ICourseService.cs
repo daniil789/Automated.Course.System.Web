@@ -11,5 +11,6 @@ namespace Automated.Course.System.BLL.Interfaces
     {
         Task<IEnumerable<CourseDTO>> GetAll();
         Task CreateCourse(CourseDTO course);
+        Task DeleteCourse(int id);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Automated.Course.System.Web.Models;
+﻿using AutoMapper;
+using Automated.Course.System.BLL.Interfaces;
+using Automated.Course.System.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,15 +14,26 @@ namespace Automated.Course.System.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICourseService _courseService;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICourseService courseService, IMapper mapper)
         {
             _logger = logger;
+            _courseService = courseService;
+            _mapper = mapper;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var result = new List<CourseViewModel>();
+            var courses = await _courseService.GetAll();
+            foreach (var course in courses)
+            {
+                result.Add(_mapper.Map<CourseViewModel>(course));
+            }
+
+            return View(result);
         }
 
         public IActionResult Privacy()
