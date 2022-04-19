@@ -2,6 +2,7 @@
 using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace Automated.Course.System.Web.Controllers
         }
 
 
+        [Authorize(Roles = "teacher", Policy = "OnlyForMicrosoft")]
         [HttpGet]
         public IActionResult AddCourse()
         {

@@ -1,5 +1,7 @@
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.BLL.Services;
+using Automated.Course.System.DAL.EF;
+using Automated.Course.System.DAL.Entities;
 using Automated.Course.System.DAL.Interfaces;
 using Automated.Course.System.DAL.Repositories;
 using Automated.Course.System.Settings.Extensions;
@@ -7,6 +9,7 @@ using Automated.Course.System.Web.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,6 +38,9 @@ namespace Automated.Course.System.Web
             var appSettings = section.Get<AppSettings>();
             services.AddSingleton(appSettings);
 
+            services.AddDbContext<CourseContext>();
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<CourseContext>();
+
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ILanguageRepository, LanguageRepository>();
@@ -61,6 +67,7 @@ namespace Automated.Course.System.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
