@@ -1,5 +1,6 @@
 ﻿using System;
 using Automated.Course.System.DAL.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Automated.Course.System.DAL.EF
 {
-    public partial class CourseContext : DbContext
+    public partial class CourseContext : IdentityDbContext
     {
         public CourseContext()
         {
@@ -31,7 +32,7 @@ namespace Automated.Course.System.DAL.EF
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Course;Username=postgres;Password=12345");
+                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=Course2;Username=postgres;Password=12345");
             }
         }
 
@@ -182,8 +183,7 @@ namespace Automated.Course.System.DAL.EF
                 entity.HasIndex(e => new { e.LastName, e.FirstName }, "user_name_idx");
 
                 entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .UseIdentityAlwaysColumn();
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Birthday)
                     .HasColumnType("date")
@@ -208,9 +208,13 @@ namespace Automated.Course.System.DAL.EF
                     .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("password");
+
+                entity.Property(e => e.IsAdmin)
+                .IsRequired()
+                .HasColumnName("is_admin");
             });
 
-            OnModelCreatingPartial(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
