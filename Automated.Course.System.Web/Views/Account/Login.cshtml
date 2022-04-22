@@ -1,24 +1,28 @@
 ﻿@model Automated.Course.System.Web.Models.LoginViewModel
 
-<h2>Вход в приложение</h2>
-<form method="post" asp-controller="Account" asp-action="Login"
-      asp-route-returnUrl="@Model.ReturnUrl">
-    <div asp-validation-summary="ModelOnly"></div>
-    <div>
-        <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+    <div class="accountForm">
+        <div class="text-center">
+            <h2>Вход</h2>
+        </div>
+        <form method="post" asp-controller="Account" asp-action="Login"
+              asp-route-returnUrl="@Model.ReturnUrl">
+            <div class="text-center" asp-validation-summary="ModelOnly"></div>
+            <div class="text-center">
+                <label asp-for="Email"></label><br />
+                <input asp-for="Email" /><br />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="text-center">
+                <label asp-for="Password"></label><br />
+                <input asp-for="Password" /><br />
+                <span asp-validation-for="Password"></span>
+            </div>
+            <div class="text-center">
+                <label asp-for="RememberMe"></label>
+                <input asp-for="RememberMe" />
+            </div>
+            <div class="text-center">
+                <input class="button" type="submit" value="Войти" />
+            </div>
+        </form>
     </div>
-    <div>
-        <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="RememberMe"></label><br />
-        <input asp-for="RememberMe" />
-    </div>
-    <div>
-        <input type="submit" value="Войти" />
-    </div>
-</form>

@@ -25,7 +25,7 @@ namespace Automated.Course.System.Web.Controllers
         }
 
 
-        [Authorize(Roles = "teacher", Policy = "OnlyForMicrosoft")]
+        [Authorize(Roles = "teacher")]
         [HttpGet]
         public IActionResult AddCourse()
         {
