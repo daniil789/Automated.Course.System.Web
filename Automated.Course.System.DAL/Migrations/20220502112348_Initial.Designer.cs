@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Automated.Course.System.DAL.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20220418110804_Initial")]
+    [Migration("20220502112348_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -379,7 +379,6 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("birthday");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("first_name");
@@ -389,13 +388,11 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("is_admin");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("last_name");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("password");

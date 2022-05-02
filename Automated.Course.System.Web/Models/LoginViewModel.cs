@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,5 +23,6 @@ namespace Automated.Course.System.Web.Models
 
         public string ReturnUrl { get; set; }
 
+        public IEnumerable<AuthenticationScheme> ExternalProviders { get; set; }
     }
 }

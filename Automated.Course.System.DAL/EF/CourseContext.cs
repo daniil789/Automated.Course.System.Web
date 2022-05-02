@@ -195,22 +195,18 @@ namespace Automated.Course.System.DAL.EF
                     .HasColumnName("email");
 
                 entity.Property(e => e.FirstName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("first_name");
 
                 entity.Property(e => e.LastName)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("last_name");
 
                 entity.Property(e => e.Password)
-                    .IsRequired()
                     .HasMaxLength(100)
                     .HasColumnName("password");
 
                 entity.Property(e => e.IsAdmin)
-                .IsRequired()
                 .HasColumnName("is_admin");
             });
 

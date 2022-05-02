@@ -1,10 +1,12 @@
 ﻿using Automated.Course.System.DAL.Entities;
 using Automated.Course.System.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Automated.Course.System.Web.Controllers
@@ -18,13 +20,15 @@ namespace Automated.Course.System.Web.Controllers
         public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;            
+            _signInManager = signInManager;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -33,7 +37,7 @@ namespace Automated.Course.System.Web.Controllers
                 User user = new User { Email = model.Email, UserName = model.Email, FirstName = model.FirstName, LastName = model.LastName, Password = model.Password };
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
-   
+
                 var identityResult = await _userManager.AddToRoleAsync(user, "teacher");
                 if (result.Succeeded && identityResult.Succeeded)
                 {
@@ -53,10 +57,70 @@ namespace Automated.Course.System.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = null)
+        public async Task<IActionResult> Login(string returnUrl = null)
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
+            var externalProviders = await _signInManager.GetExternalAuthenticationSchemesAsync();
+
+            return View(new LoginViewModel { ReturnUrl = returnUrl, ExternalProviders = externalProviders });
         }
+
+        public IActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return Challenge(properties, provider);
+        }
+
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl)
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, false);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            return RedirectToAction("RegisterExternal", new ExternalLoginViewModel
+            {
+                ReturnUrl = returnUrl,
+                UserName = info.Principal.FindFirstValue(ClaimTypes.Email)
+            });
+        }
+
+        [ActionName("RegisterExternal")]
+        public async Task<IActionResult> RegisterExternalConfirmed(ExternalLoginViewModel model)
+        {
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            var user = new User() { UserName = model.UserName, Email = model.UserName };
+
+            var result = await _userManager.CreateAsync(user);
+            if (result.Succeeded)
+            {
+                var res = await _userManager.AddToRoleAsync(user, "student");
+                if (res.Succeeded)
+                {
+                    var identityResult = await _userManager.AddLoginAsync(user, info);
+                    if (identityResult.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+            }
+
+            return View(model);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

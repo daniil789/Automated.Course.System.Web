@@ -6,8 +6,11 @@ using Automated.Course.System.DAL.Interfaces;
 using Automated.Course.System.DAL.Repositories;
 using Automated.Course.System.Settings.Extensions;
 using Automated.Course.System.Web.Mapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +19,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace Automated.Course.System.Web
 {
@@ -24,17 +29,17 @@ namespace Automated.Course.System.Web
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
-            var section = Configuration.GetSection(nameof(AppSettings));
+            var section = _configuration.GetSection(nameof(AppSettings));
             var appSettings = section.Get<AppSettings>();
             services.AddSingleton(appSettings);
 
@@ -47,6 +52,30 @@ namespace Automated.Course.System.Web
             services.AddScoped<ILanguageService, LanguageService>();
 
             services.AddAutoMapper(typeof(AppMappingProfile));
+
+
+            services.AddAuthentication()
+              .AddOAuth("VK", "VKontakte", config =>
+              {
+                  config.ClientId = _configuration["Authentication:VK:AppId"];
+                  config.ClientSecret = _configuration["Authentication:VK:AppSecret"];
+                  config.ClaimsIssuer = "VKontakte";
+                  config.CallbackPath = new PathString("/signin-vkontakte-token");
+                  config.AuthorizationEndpoint = "https://oauth.vk.com/authorize";
+                  config.TokenEndpoint = "https://oauth.vk.com/access_token";
+                  config.Scope.Add("email");
+                  config.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "user_id");
+                  config.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                  config.SaveTokens = true;
+                  config.Events = new OAuthEvents
+                  {
+                      OnCreatingTicket = context =>
+                      {
+                          context.RunClaimActions(context.TokenResponse.Response.RootElement);
+                          return Task.CompletedTask;
+                      }
+                  };
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

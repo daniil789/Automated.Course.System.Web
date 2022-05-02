@@ -171,9 +171,9 @@ namespace Automated.Course.System.DAL.Migrations
                 columns: table => new
                 {
                     id = table.Column<string>(type: "text", nullable: false),
-                    password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
+                    first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     birthday = table.Column<DateTime>(type: "date", nullable: false),
                     is_admin = table.Column<bool>(type: "boolean", nullable: false)
                 },

@@ -377,7 +377,6 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("birthday");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("first_name");
@@ -387,13 +386,11 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("is_admin");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("last_name");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("password");
