@@ -19,37 +19,40 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            @if (User.IsInRole("teacher"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="AddCourse" asp-action="AddCourse">+Добавить</a>
-                                </li>
-                            }
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="CoursesList" asp-action="Index">Мои курсы</a>
-                            </li>
-                        }
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <p>Добро пожаловать, @userManager.FindByNameAsync(User.Identity.Name).Result.FirstName</p>
+            </div>
+            <div class="">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    @if (User.IsInRole("teacher"))
+                    {
+                        <a class="nav-link text-dark" asp-area="" asp-controller="AddCourse" asp-action="AddCourse">+Добавить</a>
+                    }
+                    <a class="nav-link text-dark" asp-area="" asp-controller="CoursesList" asp-action="Index">Мои курсы</a>
+                }
 
-                                <form method="post" asp-controller="Account" asp-action="Logout">
-                                    <input type="submit" value="Выход" />
-                                </form>
-                            }
-                            else
-                            {
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Вход</a>
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Регистрация</a>
-                            }
-                        </li>
-                    </ul>
-                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <p>@userManager.FindByNameAsync(User.Identity.Name).Result.UserName</p>
+
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <input type="submit" value="Выход" />
+                    </form>
+                }
+                else
+                {
+                    <div>
+                        <table class="text-right">
+                            <tr>
+                                <td>
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Вход</a>
+                                </td>
+                                <td>
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Регистрация</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
             </div>
         </nav>
     </header>
