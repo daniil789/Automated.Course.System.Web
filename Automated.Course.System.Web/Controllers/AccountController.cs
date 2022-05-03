@@ -146,11 +146,13 @@ namespace Automated.Course.System.Web.Controllers
                     ModelState.AddModelError("", "Неправильный логин и (или) пароль");
                 }
             }
+
+            model.ExternalProviders = await _signInManager.GetExternalAuthenticationSchemesAsync();
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+     
+         
         public async Task<IActionResult> Logout()
         {
             // удаляем аутентификационные куки

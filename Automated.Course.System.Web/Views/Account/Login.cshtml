@@ -1,38 +1,47 @@
 ﻿@model Automated.Course.System.Web.Models.LoginViewModel
 
-<div class="accountForm">
-    <div class="text-center">
-        <h2>Вход</h2>
+
+<div id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Авторизация</h5>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form method="post" asp-controller="Account" asp-action="Login">
+                        <div class="form-group">
+                            <label asp-for="Email"></label><br />
+                            <input asp-for="Email" /><br />
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password"></label><br />
+                            <input asp-for="Password" /><br />
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                        <div class="form-check">
+                            <label asp-for="RememberMe"></label>
+                            <input asp-for="RememberMe" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                        </div>
+                    </form>
+                    <form method="post" asp-controller="Account" asp-action="ExternalLogin">
+                        <div class="modal-footer">
+                            @foreach (var provider in Model.ExternalProviders)
+                            {
+                                <button type="submit"
+                                        name="provider"
+                                        value="@provider.Name">
+                                    @provider.DisplayName
+                                </button>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-    <form method="post" asp-controller="Account" asp-action="ExternalLogin"
-          asp-route-returnUrl="@Model.ReturnUrl">
-        <div class="text-center" asp-validation-summary="ModelOnly"></div>
-        <div class="text-center">
-            <label asp-for="Email"></label><br />
-            <input asp-for="Email" /><br />
-            <span asp-validation-for="Email"></span>
-        </div>
-        <div class="text-center">
-            <label asp-for="Password"></label><br />
-            <input asp-for="Password" /><br />
-            <span asp-validation-for="Password"></span>
-        </div>
-        <div class="text-center">
-            <label asp-for="RememberMe"></label>
-            <input asp-for="RememberMe" />
-        </div>
-        <div class="text-center">
-            <input class="button" type="submit" value="Войти" />
-        </div>
-        <div>
-            @foreach (var provider in Model.ExternalProviders)
-    {
-            <button type="submit"
-                    name="provider"
-                    value="@provider.Name">
-                @provider.DisplayName
-            </button>
-        }
-        </div>
-    </form>
 </div>

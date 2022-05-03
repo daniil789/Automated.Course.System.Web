@@ -14,29 +14,40 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Automated.Course.System.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Automated.Course.System.Web</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("teacher"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="AddCourse" asp-action="AddCourse">+Добавить</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="CoursesList" asp-action="Index">Мои курсы</a>
+                        </li>
+                    }
+                </ul>
             </div>
             <div class="">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @if (User.IsInRole("teacher"))
-                    {
-                        <a class="nav-link text-dark" asp-area="" asp-controller="AddCourse" asp-action="AddCourse">+Добавить</a>
-                    }
-                    <a class="nav-link text-dark" asp-area="" asp-controller="CoursesList" asp-action="Index">Мои курсы</a>
-                }
-
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <p>@userManager.FindByNameAsync(User.Identity.Name).Result.UserName</p>
-
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <input type="submit" value="Выход" />
-                    </form>
+                    <div class="dropdown">
+                        <p class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @userManager.FindByNameAsync(User.Identity.Name).Result.UserName
+                        </p>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Настройки</a>
+                            <a class="dropdown-item" asp-controller="Account" asp-action="Logout">Выход</a>
+                        </div>
+                    </div>
                 }
                 else
                 {
