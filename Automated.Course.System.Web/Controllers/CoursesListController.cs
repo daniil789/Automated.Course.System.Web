@@ -24,7 +24,7 @@ namespace Automated.Course.System.Web.Controllers
             _languageService = languageService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> MyCourses()
         {
             var languages = new List<LanguageViewModel>();
             var languagesDTO = _languageService.GetAll();
