@@ -17,6 +17,7 @@ namespace Automated.Course.System.DAL.Entities
         public string Name { get; set; }
         public string Discription { get; set; }
         public int LanguageId { get; set; }
+        public string CreateUserId { get; set; }
 
         public virtual Language Language { get; set; }
         public virtual ICollection<Chapter> Chapters { get; set; }

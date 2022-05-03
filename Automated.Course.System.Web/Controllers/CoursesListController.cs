@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
+using Automated.Course.System.DAL.Entities;
 using Automated.Course.System.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,12 +18,14 @@ namespace Automated.Course.System.Web.Controllers
         private readonly ICourseService _courseService;
         private readonly IMapper _mapper;
         private readonly ILanguageService _languageService;
+        private readonly UserManager<User> _userManager;
 
-        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService)
+        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager)
         {
             _courseService = courseService;
             _mapper = mapper;
             _languageService = languageService;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> MyCourses()
@@ -51,11 +55,13 @@ namespace Automated.Course.System.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCourse(string name, string description, int language)
         {
-            var course = new CourseDTO() { Name = name, Discription = description, LanguageId = language };
+            var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var course = new CourseDTO() { Name = name, Discription = description, LanguageId = language, CreateUserId = curUser.Id };
 
             await _courseService.CreateCourse(course);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MyCourses", "CoursesList");
         }
     }
 }

@@ -103,6 +103,11 @@ namespace Automated.Course.System.DAL.EF
                     .HasMaxLength(100)
                     .HasColumnName("name");
 
+                entity.Property(e => e.CreateUserId)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasColumnName("create_user_id");
+
                 //entity.HasOne(d => d.Language)
                 //    .HasForeignKey(d => d.LanguageId)
                 //    .OnDelete(DeleteBehavior.ClientSetNull)

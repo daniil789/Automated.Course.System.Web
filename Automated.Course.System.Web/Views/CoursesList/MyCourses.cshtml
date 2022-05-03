@@ -1,11 +1,12 @@
 ﻿@inject Automated.Course.System.BLL.Interfaces.ILanguageService LanguageService
+@inject Microsoft.AspNetCore.Identity.UserManager<Automated.Course.System.DAL.Entities.User> UserManager
 @model CoursesListViewModel
 @{
     ViewData["Title"] = "Courses";
 }
-<a data-toggle="modal" data-target="#exampleModalCenter">
-    <img class="card-img-top" src="~/Assets/Add.png" style="width: 10rem; height: 10rem;" alt="Card image cap">
-</a>
+<button class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModalCenter">
+    Добавить
+</button>
 
 
 @if (Model.Courses.Count != 0)
@@ -20,6 +21,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@course.Name</h5>
                         <p class="card-text">@course.Discription</p>
+                        <p class="card-text">Автор курса: @UserManager.FindByIdAsync(course.CreateUserId).Result.UserName</p>
                         <p class="card-text text-muted"> @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
                         <a href="#" class="btn btn-primary">Редактировать</a>
                         <a href="#" class="btn btn-primary">Удалить</a>
@@ -49,12 +51,12 @@
                     <form method="post" asp-controller="CoursesList" asp-action="AddCourse">
                         <p>
                             <label>Название:</label><br />
-                            <input type="text" name="name" />
+                            <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Введите название">
                         </p>
 
                         <p>
                             <label>Описание:</label><br />
-                            <input type="text" name="description" />
+                            <input class="form-control" type="text" name="description" placeholder="Краткое описание" />
                         </p>
 
                         <p>

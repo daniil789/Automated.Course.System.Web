@@ -11,5 +11,6 @@ namespace Automated.Course.System.Web.Models
         public string Name { get; set; }
         public string Discription { get; set; }
         public int LanguageId { get; set; }
+        public string CreateUserId { get; set; }
     }
 }

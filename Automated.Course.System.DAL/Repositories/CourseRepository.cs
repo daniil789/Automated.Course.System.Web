@@ -23,7 +23,7 @@ namespace Automated.Course.System.DAL.Repositories
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertCourse, item.Name, item.Discription, item.LanguageId), conn))
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertCourse, item.Name, item.Discription, item.LanguageId, item.CreateUserId), conn))
             {
                 await cmd.ExecuteNonQueryAsync();
             }
@@ -56,7 +56,7 @@ namespace Automated.Course.System.DAL.Repositories
             {
                 while (await reader.ReadAsync())
                 {
-                    result.Add(new Entities.Course { Id = reader.GetInt32(0), Name = reader.GetString(1), Discription = reader.GetString(2), LanguageId = reader.GetInt32(3) });
+                    result.Add(new Entities.Course { Id = reader.GetInt32(0), Name = reader.GetString(1), Discription = reader.GetString(2), LanguageId = reader.GetInt32(3), CreateUserId = reader.GetString(4) });
                 }
             }
             await conn.CloseAsync();

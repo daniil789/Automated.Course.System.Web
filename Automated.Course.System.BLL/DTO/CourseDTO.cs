@@ -12,5 +12,6 @@ namespace Automated.Course.System.BLL.DTO
         public string Name { get; set; }
         public string Discription { get; set; }
         public int LanguageId { get; set; }
+        public string CreateUserId { get; set; }
     }
 }
