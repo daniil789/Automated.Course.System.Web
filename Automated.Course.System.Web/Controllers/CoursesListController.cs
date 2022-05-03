@@ -48,22 +48,6 @@ namespace Automated.Course.System.Web.Controllers
             return View(result);
         }
 
-
-        [Authorize(Roles = "teacher")]
-        [HttpGet]
-        public IActionResult AddCourse()
-        {
-            var vm = new AddCourseViewModel();
-
-
-            foreach (var item in _languageService.GetAll())
-            {
-                vm.Languages.Add(_mapper.Map<LanguageViewModel>(item));
-            }
-
-            return View(vm);
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddCourse(string name, string description, int language)
         {
