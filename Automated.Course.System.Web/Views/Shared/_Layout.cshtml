@@ -22,14 +22,11 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="CoursesList" asp-action="Index">Каталог</a>
+                    </li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @if (User.IsInRole("teacher"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="AddCourse" asp-action="AddCourse">+Добавить</a>
-                            </li>
-                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="CoursesList" asp-action="Index">Мои курсы</a>
                         </li>

@@ -1,40 +1,80 @@
 ﻿@inject Automated.Course.System.BLL.Interfaces.ILanguageService LanguageService
-@model List<CourseViewModel>
+@model CoursesListViewModel
 @{
     ViewData["Title"] = "Courses";
 }
-<script type="text/javascript">
-    function deleteById(id) {
-        console.log(id);
-        const queryForDelete = "/CoursesList/DeleteCourse?id=" + id;
+<a data-toggle="modal" data-target="#exampleModalCenter">
+    <img class="card-img-top" src="~/Assets/Add.png" style="width: 10rem; height: 10rem;" alt="Card image cap">
+</a>
 
-        result = confirm("Удалить?");
 
-        if (result)
-            fetch(queryForDelete);
- 
-
-    }
-</script>
-@if (Model.Count != 0)
+@if (Model.Courses.Count != 0)
 {
-    @foreach (var course in Model)
-    {
-        <div class="course">
-            <div>
-                <p class="deletebutton">
-                    <!-- <a asp-action="DeleteCourse" asp-route-id="//course.Id" asp-controller="CoursesList">--><img src="~/Assets/ico_cross.png" width="20" height="20" align="right" onclick="deleteById(@course.Id)" /><!--</a>-->
-                </p>
+    <div class="row">
+        @foreach (var course in Model.Courses)
+        {
+            <div class="col-sm-6">
+                <div class="card" style="width: 18rem;">
+                    <h5 class="card-header">Featured</h5>
+                    <img class="card-img-top" src="~/Assets/Course.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@course.Name</h5>
+                        <p class="card-text">@course.Discription</p>
+                        <p class="card-text text-muted"> @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
+                        <a href="#" class="btn btn-primary">Редактировать</a>
+                        <a href="#" class="btn btn-primary">Удалить</a>
+                    </div>
+                </div>
             </div>
-            <img src="~/Assets/Course.jpg" />
-            <b><p id="course" class="coursename">@course.Name</p></b>
-            <p>Курс на языке @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
-            <p>@course.Discription</p>
-        </div>
-    }
+        }
+    </div>
 }
-@if (Model.Count == 0)
+@if (Model.Courses.Count == 0)
 {
     <p class="display-4">У вас пока нет курсов</p>
 }
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Создать новый курс</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form method="post" asp-controller="CoursesList" asp-action="AddCourse">
+                        <p>
+                            <label>Название:</label><br />
+                            <input type="text" name="name" />
+                        </p>
+
+                        <p>
+                            <label>Описание:</label><br />
+                            <input type="text" name="description" />
+                        </p>
+
+                        <p>
+                            <label>Язык:</label><br />
+                            <select name="language">
+                                @foreach (var item in Model.Languages)
+                                {
+                                    <option value="@item.Id">@item.LanguageName</option>
+                                }
+                            </select>
+                        </p>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <input type="submit" class="btn btn-primary" value="Создать" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

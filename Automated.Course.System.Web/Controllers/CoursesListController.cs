@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,35 +26,52 @@ namespace Automated.Course.System.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = new List<CourseViewModel>();
-            var courses = await _courseService.GetAll();
-            foreach (var course in courses)
+            var languages = new List<LanguageViewModel>();
+            var languagesDTO = _languageService.GetAll();
+
+            foreach (var language in languagesDTO)
             {
-                result.Add(_mapper.Map<CourseViewModel>(course));
+                languages.Add(_mapper.Map<LanguageViewModel>(language));
             }
+
+
+            var coursesListVM = new List<CourseViewModel>();
+            var coursesDTO = await _courseService.GetAll();
+
+            foreach (var course in coursesDTO)
+            {
+                coursesListVM.Add(_mapper.Map<CourseViewModel>(course));
+            }
+
+            var result = new CoursesListViewModel(coursesListVM, languages);
 
             return View(result);
         }
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> DeleteCourse(int? id)
-        //{
-        //    var courseForDelete = await _courseService.GetAll();
-
-        //    var a = courseForDelete.First(x => x.Id == id);
-
-        //    var c = _mapper.Map<CourseViewModel>(a);
-
-        //    return PartialView(c);
-        //}
-
+        [Authorize(Roles = "teacher")]
         [HttpGet]
-        public async Task<IActionResult> DeleteCourse(int id)
+        public IActionResult AddCourse()
         {
-            await _courseService.DeleteCourse(id);
+            var vm = new AddCourseViewModel();
 
-            return RedirectToAction("Index");
+
+            foreach (var item in _languageService.GetAll())
+            {
+                vm.Languages.Add(_mapper.Map<LanguageViewModel>(item));
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCourse(string name, string description, int language)
+        {
+            var course = new CourseDTO() { Name = name, Discription = description, LanguageId = language };
+
+            await _courseService.CreateCourse(course);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
