@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Automated.Course.System.DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -196,7 +196,8 @@ namespace Automated.Course.System.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     discription = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    language_id = table.Column<int>(type: "integer", nullable: false)
+                    language_id = table.Column<int>(type: "integer", nullable: false),
+                    create_user_id = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -207,27 +208,6 @@ namespace Automated.Course.System.DAL.Migrations
                         principalTable: "languages",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "chapters",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    discription = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    course_id = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_chapters", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_course_chapters",
-                        column: x => x.course_id,
-                        principalTable: "courses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,18 +240,11 @@ namespace Automated.Course.System.DAL.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     task_text = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    course_id = table.Column<int>(type: "integer", nullable: false),
-                    chapter_id = table.Column<int>(type: "integer", nullable: false)
+                    course_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tasks", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_tasks_chapter",
-                        column: x => x.chapter_id,
-                        principalTable: "chapters",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "fk_tasks_course",
                         column: x => x.course_id,
@@ -343,11 +316,6 @@ namespace Automated.Course.System.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_chapters_course_id",
-                table: "chapters",
-                column: "course_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_course_user_reference_course_id",
                 table: "course_user_reference",
                 column: "course_id");
@@ -361,11 +329,6 @@ namespace Automated.Course.System.DAL.Migrations
                 name: "IX_courses_language_id",
                 table: "courses",
                 column: "language_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tasks_chapter_id",
-                table: "tasks",
-                column: "chapter_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tasks_course_id",
@@ -411,13 +374,10 @@ namespace Automated.Course.System.DAL.Migrations
                 name: "users");
 
             migrationBuilder.DropTable(
-                name: "chapters");
+                name: "courses");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "courses");
 
             migrationBuilder.DropTable(
                 name: "languages");

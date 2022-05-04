@@ -9,7 +9,6 @@ namespace Automated.Course.System.DAL.Entities
     {
         public Course()
         {
-            Chapters = new HashSet<Chapter>();
             Tasks = new HashSet<Task>();
         }
 
@@ -20,7 +19,6 @@ namespace Automated.Course.System.DAL.Entities
         public string CreateUserId { get; set; }
 
         public virtual Language Language { get; set; }
-        public virtual ICollection<Chapter> Chapters { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
     }
 }

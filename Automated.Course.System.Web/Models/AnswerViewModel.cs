@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace Automated.Course.System.Web.Models
 {
-    public class EditCourseViewModel
+    public class AnswerViewModel
     {
-        public CourseViewModel Course { get; set; }
-        public List<LanguageViewModel> Languages { get; set; }
-
+        public string Value { get; set; }
+        public bool IsRight { get; set; }
     }
 }

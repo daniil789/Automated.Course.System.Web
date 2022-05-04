@@ -1,0 +1,50 @@
+﻿@model EditCourseViewModel
+<div>
+    <form method="post" asp-controller="CoursesList" asp-action="AddCourse">
+        <p>
+            <label>Название:</label><br />
+            <input type="text" asp-for="Course.Name" class="form-control" id="exampleInputEmail1" placeholder="Введите название">
+        </p>
+
+        <p>
+            <label>Описание:</label><br />
+            <input class="form-control" type="text" asp-for="Course.Description" placeholder="Краткое описание" />
+        </p>
+
+        <p>
+            <label>Язык:</label><br />
+            <select name="language">
+                @foreach (var item in Model.Languages)
+                {
+                    <option value="@item.Id">@item.LanguageName</option>
+                }
+            </select>
+        </p>
+
+
+        <div id="chapters">
+            <div id="tasks">
+                <div id="answers">
+
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" onclick="addChapter()">Добавить главу</button>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            <input type="submit" class="btn btn-primary" value="Сохранить" />
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function addChapter() {
+        let chapters = document.getElementById('chapters');
+        let newChapter = document.createElement('input');
+        newChapter.setAttribute('name', 'Course.Name');
+        chapters.append(newChapter);
+    }
+</script>

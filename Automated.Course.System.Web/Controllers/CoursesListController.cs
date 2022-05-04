@@ -63,75 +63,32 @@ namespace Automated.Course.System.Web.Controllers
             return View(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddCourse(string name, string description, int language)
-        {
-            var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            var course = new CourseDTO() { Name = name, Discription = description, LanguageId = language, CreateUserId = curUser.Id };
-
-            await _courseService.CreateCourse(course);
-
-            return RedirectToAction("MyCourses", "CoursesList");
-        }
-
         [HttpGet]
-        public async Task<IActionResult> Edit(int courseId)
+        public IActionResult AddCourse()
         {
-            var course = await _courseService.GetById(courseId);
-
             var languages = new List<LanguageViewModel>();
+            var addCourseVM = new EditCourseViewModel();
             var languagesDTO = _languageService.GetAll();
-
-            var chapters = new List<ChapterViewModel>();
-            var chatpersDTO = await _chapterService.GetAllByCourseId(courseId);
-
-
-            foreach (var chatper in chatpersDTO)
-            {
-                var tasksVM = new List<TaskViewModel>();
-                var chapterVM = _mapper.Map<ChapterViewModel>(chatper);
-
-                var tasks = await _taskService.GetAllByChapterId(chapterVM.Id);
-                foreach (var task in tasks)
-                {
-                    tasksVM.Add(_mapper.Map<TaskViewModel>(task));
-                }
-
-                chapterVM.Tasks = tasksVM;
-
-                chapters.Add(chapterVM);
-            }
-
-            foreach (var language in languagesDTO)
+            foreach(var language in languagesDTO)
             {
                 languages.Add(_mapper.Map<LanguageViewModel>(language));
             }
 
-            var result = new EditCourseViewModel() { Id = course.Id, Name = course.Name, Discription = course.Discription, Languages = languages, Chapters = chapters };
+            addCourseVM.Languages = languages;
 
-            ISession session = _serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.Session;
-            session.SetString("CourseId", result.Id.ToString());
-
-            return View(result);
+            return View(addCourseVM);
         }
 
-        public async Task<IActionResult> AddChapter(ChapterViewModel chapter)
+        [HttpPost]
+        public async Task<IActionResult> AddCourse(CourseViewModel course)
         {
-            var chapterDTO = new ChapterDTO { CourseId = chapter.CourseId, Name = chapter.Name, Discription = chapter.Description };
+            //var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            await _chapterService.CreateChapter(chapterDTO);
+            //var course = new CourseDTO() { Name = name, Discription = description, LanguageId = language, CreateUserId = curUser.Id };
 
-            return RedirectToAction("Edit", new { courseId = int.Parse(HttpContext.Session.GetString("CourseId")) });
-        }
+            //await _courseService.CreateCourse(course);
 
-        public async Task<IActionResult> AddTask(TaskViewModel task)
-        {
-            var taskDTO = new TaskDTO { TaskText = task.TaskText, ChapterId = task.ChapterId };
-
-            await _taskService.Create(taskDTO);
-
-            return RedirectToAction("Edit", new { courseId = int.Parse(HttpContext.Session.GetString("CourseId")) });
+            return RedirectToAction("MyCourses", "CoursesList");
         }
     }
 }

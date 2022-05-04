@@ -20,7 +20,7 @@ namespace Automated.Course.System.DAL.EF
         }
 
         public virtual DbSet<Answer> Answers { get; set; }
-        public virtual DbSet<Chapter> Chapters { get; set; }
+     //   public virtual DbSet<Chapter> Chapters { get; set; }
         public virtual DbSet<Entities.Course> Courses { get; set; }
         public virtual DbSet<CourseUserReference> CourseUserReferences { get; set; }
         public virtual DbSet<Language> Languages { get; set; }
@@ -59,30 +59,30 @@ namespace Automated.Course.System.DAL.EF
                     .HasConstraintName("fk_answers_task");
             });
 
-            modelBuilder.Entity<Chapter>(entity =>
-            {
-                entity.ToTable("chapters");
+            //modelBuilder.Entity<Chapter>(entity =>
+            //{
+            //    entity.ToTable("chapters");
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .UseIdentityAlwaysColumn();
+            //    entity.Property(e => e.Id)
+            //        .HasColumnName("id")
+            //        .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.CourseId).HasColumnName("course_id");
+            //    entity.Property(e => e.CourseId).HasColumnName("course_id");
 
-                entity.Property(e => e.Discription)
-                    .HasMaxLength(500)
-                    .HasColumnName("discription");
+            //    entity.Property(e => e.Discription)
+            //        .HasMaxLength(500)
+            //        .HasColumnName("discription");
 
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .HasColumnName("name");
+            //    entity.Property(e => e.Name)
+            //        .IsRequired()
+            //        .HasMaxLength(100)
+            //        .HasColumnName("name");
 
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Chapters)
-                    .HasForeignKey(d => d.CourseId)
-                    .HasConstraintName("fk_course_chapters");
-            });
+            //    entity.HasOne(d => d.Course)
+            //        .WithMany(p => p.Chapters)
+            //        .HasForeignKey(d => d.CourseId)
+            //        .HasConstraintName("fk_course_chapters");
+            //});
 
             modelBuilder.Entity<Entities.Course>(entity =>
             {
@@ -159,7 +159,7 @@ namespace Automated.Course.System.DAL.EF
                     .HasColumnName("id")
                     .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.ChapterId).HasColumnName("chapter_id");
+                entity.Property(e => e.CourseId).HasColumnName("course_id");
 
 
                 entity.Property(e => e.TaskText)
@@ -167,11 +167,11 @@ namespace Automated.Course.System.DAL.EF
                     .HasMaxLength(100)
                     .HasColumnName("task_text");
 
-                entity.HasOne(d => d.Chapter)
+                entity.HasOne(d => d.Course)
                     .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.ChapterId)
+                    .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_tasks_chapter");
+                    .HasConstraintName("fk_tasks_course");
             });
 
             modelBuilder.Entity<User>(entity =>

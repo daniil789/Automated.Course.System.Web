@@ -44,36 +44,6 @@ namespace Automated.Course.System.DAL.Migrations
                     b.ToTable("answers");
                 });
 
-            modelBuilder.Entity("Automated.Course.System.DAL.Entities.Chapter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("id")
-                        .UseIdentityAlwaysColumn();
-
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("integer")
-                        .HasColumnName("course_id");
-
-                    b.Property<string>("Discription")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("discription");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
-
-                    b.ToTable("chapters");
-                });
-
             modelBuilder.Entity("Automated.Course.System.DAL.Entities.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -154,12 +124,9 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("id")
                         .UseIdentityAlwaysColumn();
 
-                    b.Property<int>("ChapterId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("integer")
-                        .HasColumnName("chapter_id");
-
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("integer");
+                        .HasColumnName("course_id");
 
                     b.Property<string>("TaskText")
                         .IsRequired()
@@ -168,8 +135,6 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("task_text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ChapterId");
 
                     b.HasIndex("CourseId");
 
@@ -415,16 +380,6 @@ namespace Automated.Course.System.DAL.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("Automated.Course.System.DAL.Entities.Chapter", b =>
-                {
-                    b.HasOne("Automated.Course.System.DAL.Entities.Course", "Course")
-                        .WithMany("Chapters")
-                        .HasForeignKey("CourseId")
-                        .HasConstraintName("fk_course_chapters");
-
-                    b.Navigation("Course");
-                });
-
             modelBuilder.Entity("Automated.Course.System.DAL.Entities.Course", b =>
                 {
                     b.HasOne("Automated.Course.System.DAL.Entities.Language", "Language")
@@ -456,17 +411,13 @@ namespace Automated.Course.System.DAL.Migrations
 
             modelBuilder.Entity("Automated.Course.System.DAL.Entities.Task", b =>
                 {
-                    b.HasOne("Automated.Course.System.DAL.Entities.Chapter", "Chapter")
+                    b.HasOne("Automated.Course.System.DAL.Entities.Course", "Course")
                         .WithMany("Tasks")
-                        .HasForeignKey("ChapterId")
-                        .HasConstraintName("fk_tasks_chapter")
+                        .HasForeignKey("CourseId")
+                        .HasConstraintName("fk_tasks_course")
                         .IsRequired();
 
-                    b.HasOne("Automated.Course.System.DAL.Entities.Course", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("CourseId");
-
-                    b.Navigation("Chapter");
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -529,15 +480,8 @@ namespace Automated.Course.System.DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Automated.Course.System.DAL.Entities.Chapter", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
             modelBuilder.Entity("Automated.Course.System.DAL.Entities.Course", b =>
                 {
-                    b.Navigation("Chapters");
-
                     b.Navigation("Tasks");
                 });
 
