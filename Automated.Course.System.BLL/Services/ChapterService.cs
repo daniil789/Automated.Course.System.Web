@@ -15,9 +15,9 @@ namespace Automated.Course.System.BLL.Services
         private readonly IChapterRepository _chapterRepository;
         private readonly IMapper _mapper;
 
-        public ChapterService(IChapterRepository _hapterRepository, IMapper mapper)
+        public ChapterService(IChapterRepository chapterRepository, IMapper mapper)
         {
-            _chapterRepository = _hapterRepository;
+            _chapterRepository = chapterRepository;
             _mapper = mapper;
         }
 

@@ -161,7 +161,6 @@ namespace Automated.Course.System.DAL.EF
 
                 entity.Property(e => e.ChapterId).HasColumnName("chapter_id");
 
-                entity.Property(e => e.CourseId).HasColumnName("course_id");
 
                 entity.Property(e => e.TaskText)
                     .IsRequired()
@@ -173,12 +172,6 @@ namespace Automated.Course.System.DAL.EF
                     .HasForeignKey(d => d.ChapterId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_tasks_chapter");
-
-                entity.HasOne(d => d.Course)
-                    .WithMany(p => p.Tasks)
-                    .HasForeignKey(d => d.CourseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_tasks_course");
             });
 
             modelBuilder.Entity<User>(entity =>

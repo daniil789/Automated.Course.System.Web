@@ -1,5 +1,4 @@
-﻿using Automated.Course.System.DAL.Entities;
-using Automated.Course.System.DAL.Interfaces;
+﻿using Automated.Course.System.DAL.Interfaces;
 using Automated.Course.System.Settings.Extensions;
 using Npgsql;
 using System;
@@ -10,21 +9,21 @@ using System.Threading.Tasks;
 
 namespace Automated.Course.System.DAL.Repositories
 {
-    public class ChapterRepository : IChapterRepository
+    public class TaskRepository : ITaskRepository
     {
         AppSettings _settings;
 
-        public ChapterRepository(AppSettings settings)
+        public TaskRepository(AppSettings settings)
         {
             _settings = settings;
         }
 
-        public async global::System.Threading.Tasks.Task Create(Chapter item)
+        public async Task Create(Entities.Task item)
         {
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertChapter, item.Name, item.Discription, item.CourseId), conn))
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertTask, item.TaskText, item.ChapterId), conn))
             {
                 await cmd.ExecuteNonQueryAsync();
             }
@@ -32,24 +31,24 @@ namespace Automated.Course.System.DAL.Repositories
             await conn.CloseAsync();
         }
 
-        public global::System.Threading.Tasks.Task Delete(int id)
+        public Task Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Chapter>> GetAllByCourseId(int courseId)
+        public async Task<IEnumerable<Entities.Task>> GetAllByChapterId(int chapterId)
         {
-            List<Chapter> result = new List<Chapter>();
+            List<Entities.Task> result = new List<Entities.Task>();
 
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand(string.Format(Queries.GetAllChaptersByCourseIdQuery, courseId), conn))
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.GetAllByChapterIdQuery, chapterId), conn))
             using (var reader = await cmd.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
-                    result.Add(new Chapter { Id = reader.GetInt32(0), Name = reader.GetString(1), Discription = reader.GetString(2), CourseId = reader.GetInt32(3) });
+                    result.Add(new Entities.Task { Id = reader.GetInt32(0), TaskText = reader.GetString(1), ChapterId = reader.GetInt32(2) });
                 }
             }
             await conn.CloseAsync();
@@ -57,12 +56,12 @@ namespace Automated.Course.System.DAL.Repositories
             return result;
         }
 
-        public Task<Chapter> GetById(int id)
+        public Task<Entities.Task> GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public global::System.Threading.Tasks.Task Update(Chapter item)
+        public global::System.Threading.Tasks.Task Update(Entities.Task item)
         {
             throw new NotImplementedException();
         }

@@ -23,10 +23,12 @@ namespace Automated.Course.System.Web.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly IChapterService _chapterService;
+        private readonly ITaskService _taskService;
 
         private EditCourseViewModel editVm { get; set; }
 
-        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager, IServiceProvider serviceProvider, IChapterService chapterService)
+        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager,
+            IServiceProvider serviceProvider, IChapterService chapterService, ITaskService taskService)
         {
             _courseService = courseService;
             _mapper = mapper;
@@ -34,6 +36,7 @@ namespace Automated.Course.System.Web.Controllers
             _userManager = userManager;
             _serviceProvider = serviceProvider;
             _chapterService = chapterService;
+            _taskService = taskService;
         }
 
         public async Task<IActionResult> MyCourses()
@@ -83,9 +86,21 @@ namespace Automated.Course.System.Web.Controllers
             var chapters = new List<ChapterViewModel>();
             var chatpersDTO = await _chapterService.GetAllByCourseId(courseId);
 
+
             foreach (var chatper in chatpersDTO)
             {
-                chapters.Add(_mapper.Map<ChapterViewModel>(chatper));
+                var tasksVM = new List<TaskViewModel>();
+                var chapterVM = _mapper.Map<ChapterViewModel>(chatper);
+
+                var tasks = await _taskService.GetAllByChapterId(chapterVM.Id);
+                foreach (var task in tasks)
+                {
+                    tasksVM.Add(_mapper.Map<TaskViewModel>(task));
+                }
+
+                chapterVM.Tasks = tasksVM;
+
+                chapters.Add(chapterVM);
             }
 
             foreach (var language in languagesDTO)
@@ -107,7 +122,16 @@ namespace Automated.Course.System.Web.Controllers
 
             await _chapterService.CreateChapter(chapterDTO);
 
-            return RedirectToAction("Edit", new { chapterDTO.CourseId });
+            return RedirectToAction("Edit", new { courseId = int.Parse(HttpContext.Session.GetString("CourseId")) });
+        }
+
+        public async Task<IActionResult> AddTask(TaskViewModel task)
+        {
+            var taskDTO = new TaskDTO { TaskText = task.TaskText, ChapterId = task.ChapterId };
+
+            await _taskService.Create(taskDTO);
+
+            return RedirectToAction("Edit", new { courseId = int.Parse(HttpContext.Session.GetString("CourseId")) });
         }
     }
 }

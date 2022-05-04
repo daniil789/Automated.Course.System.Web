@@ -3,15 +3,17 @@ using System;
 using Automated.Course.System.DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Automated.Course.System.DAL.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    partial class CourseContextModelSnapshot : ModelSnapshot
+    [Migration("20220504103334_createTask")]
+    partial class createTask
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,7 +160,7 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("chapter_id");
 
-                    b.Property<int?>("CourseId")
+                    b.Property<int>("CourseId")
                         .HasColumnType("integer");
 
                     b.Property<string>("TaskText")
@@ -462,11 +464,15 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasConstraintName("fk_tasks_chapter")
                         .IsRequired();
 
-                    b.HasOne("Automated.Course.System.DAL.Entities.Course", null)
+                    b.HasOne("Automated.Course.System.DAL.Entities.Course", "Course")
                         .WithMany("Tasks")
-                        .HasForeignKey("CourseId");
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Chapter");
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
