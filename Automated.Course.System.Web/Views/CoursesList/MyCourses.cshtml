@@ -4,9 +4,9 @@
 @{
     ViewData["Title"] = "Courses";
 }
-<a class="btn btn-outline-secondary" asp-controller="CoursesList" asp-action="AddCourse">
+<button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
     Добавить
-</a>
+</button>
 
 
 @if (Model.Courses.Count != 0)
@@ -51,7 +51,7 @@
                     <form method="post" asp-controller="CoursesList" asp-action="AddCourse">
                         <p>
                             <label>Название:</label><br />
-                            <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Введите название">
+                            <input type="text"  name="name" class="form-control" id="exampleInputEmail1" placeholder="Введите название">
                         </p>
 
                         <p>

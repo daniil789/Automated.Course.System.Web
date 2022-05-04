@@ -92,7 +92,7 @@ namespace Automated.Course.System.DAL.EF
                     .HasColumnName("id")
                     .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.Discription)
+                entity.Property(e => e.Description)
                     .HasMaxLength(500)
                     .HasColumnName("discription");
 

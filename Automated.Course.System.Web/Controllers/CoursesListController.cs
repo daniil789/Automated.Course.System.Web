@@ -63,32 +63,36 @@ namespace Automated.Course.System.Web.Controllers
             return View(result);
         }
 
-        [HttpGet]
-        public IActionResult AddCourse()
+        [HttpPost]
+        public async Task<IActionResult> AddCourse(string name, string description, int language)
         {
+            var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var course = new CourseDTO() { Name = name, Description = description, LanguageId = language, CreateUserId = curUser.Id };
+
+            await _courseService.CreateCourse(course);
+
+            return RedirectToAction("MyCourses", "CoursesList");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int courseId)
+        {
+            var courseDTO = await _courseService.GetById(courseId);
+            var courseVM = _mapper.Map<CourseViewModel>(courseDTO);
+
             var languages = new List<LanguageViewModel>();
-            var addCourseVM = new EditCourseViewModel();
             var languagesDTO = _languageService.GetAll();
-            foreach(var language in languagesDTO)
+
+
+            foreach (var language in languagesDTO)
             {
                 languages.Add(_mapper.Map<LanguageViewModel>(language));
             }
 
-            addCourseVM.Languages = languages;
+            var result = new EditCourseViewModel() { Course = courseVM, Languages = languages};
 
-            return View(addCourseVM);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCourse(CourseViewModel course)
-        {
-            //var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
-
-            //var course = new CourseDTO() { Name = name, Discription = description, LanguageId = language, CreateUserId = curUser.Id };
-
-            //await _courseService.CreateCourse(course);
-
-            return RedirectToAction("MyCourses", "CoursesList");
+            return View(result);
         }
     }
 }
