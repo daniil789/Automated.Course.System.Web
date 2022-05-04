@@ -12,6 +12,6 @@ namespace Automated.Course.System.Web.Models
         public string Description { get; set; }
         public int LanguageId { get; set; }
         public string CreateUserId { get; set; }
-        public List<ChapterViewModel> Chapters { get; set; }
+        public List<TaskViewModel> Tasks { get; set; }
     }
 }
