@@ -4,8 +4,10 @@ using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Entities;
 using Automated.Course.System.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +21,19 @@ namespace Automated.Course.System.Web.Controllers
         private readonly IMapper _mapper;
         private readonly ILanguageService _languageService;
         private readonly UserManager<User> _userManager;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IChapterService _chapterService;
 
-        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager)
+        private EditCourseViewModel editVm { get; set; }
+
+        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager, IServiceProvider serviceProvider, IChapterService chapterService)
         {
             _courseService = courseService;
             _mapper = mapper;
             _languageService = languageService;
             _userManager = userManager;
+            _serviceProvider = serviceProvider;
+            _chapterService = chapterService;
         }
 
         public async Task<IActionResult> MyCourses()
@@ -62,6 +70,44 @@ namespace Automated.Course.System.Web.Controllers
             await _courseService.CreateCourse(course);
 
             return RedirectToAction("MyCourses", "CoursesList");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int courseId)
+        {
+            var course = await _courseService.GetById(courseId);
+
+            var languages = new List<LanguageViewModel>();
+            var languagesDTO = _languageService.GetAll();
+
+            var chapters = new List<ChapterViewModel>();
+            var chatpersDTO = await _chapterService.GetAllByCourseId(courseId);
+
+            foreach (var chatper in chatpersDTO)
+            {
+                chapters.Add(_mapper.Map<ChapterViewModel>(chatper));
+            }
+
+            foreach (var language in languagesDTO)
+            {
+                languages.Add(_mapper.Map<LanguageViewModel>(language));
+            }
+
+            var result = new EditCourseViewModel() { Id = course.Id, Name = course.Name, Discription = course.Discription, Languages = languages, Chapters = chapters };
+
+            ISession session = _serviceProvider.GetRequiredService<IHttpContextAccessor>().HttpContext.Session;
+            session.SetString("CourseId", result.Id.ToString());
+
+            return View(result);
+        }
+
+        public async Task<IActionResult> AddChapter(ChapterViewModel chapter)
+        {
+            var chapterDTO = new ChapterDTO { CourseId = chapter.CourseId, Name = chapter.Name, Discription = chapter.Description };
+
+            await _chapterService.CreateChapter(chapterDTO);
+
+            return RedirectToAction("Edit", new { chapterDTO.CourseId });
         }
     }
 }

@@ -1,0 +1,71 @@
+﻿@model EditCourseViewModel
+<div>
+    <form method="post" asp-controller="CoursesList" asp-action="AddCourse">
+        <input asp-for="Id" type="hidden" />
+        <p>
+            <label>Название:</label><br />
+            <input type="text" asp-for="Name" class="form-control" id="exampleInputEmail1" placeholder="Введите название">
+        </p>
+
+        <p>
+            <label>Описание:</label><br />
+            <input class="form-control" type="text" asp-for="Discription" placeholder="Краткое описание" />
+        </p>
+
+        <p>
+            <label>Язык:</label><br />
+            <select name="language">
+                @foreach (var item in Model.Languages)
+                {
+                    <option value="@item.Id">@item.LanguageName</option>
+                }
+            </select>
+        </p>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            <input type="submit" class="btn btn-primary" value="Сохранить" />
+        </div>
+    </form>
+
+    @foreach (var item in Model.Chapters)
+    {
+        <p value="@item.Id">@item.Name</p>
+    }
+
+    <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#addChapter">
+        Добавить главу
+    </button>
+</div>
+
+<div class="modal fade" id="addChapter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Добавить главу</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form method="post" asp-route-courseId="@Model.Id" asp-controller="CoursesList" asp-action="AddChapter">
+                        <p>
+                            <label>Название:</label><br />
+                            <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Введите название">
+                        </p>
+                        <p>
+                            <label>Описание:</label><br />
+                            <input class="form-control" type="text" name="description" placeholder="Краткое описание" />
+                        </p>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            <input type="submit" class="btn btn-primary" value="Создать" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

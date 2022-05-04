@@ -43,5 +43,13 @@ namespace Automated.Course.System.BLL.Services
 
             return result;
         }
+
+        public async Task<CourseDTO> GetById(int id)
+        {
+           var course = await _courseRepository.GetById(id);
+
+            return _mapper.Map<CourseDTO>(course);
+
+        }
     }
 }

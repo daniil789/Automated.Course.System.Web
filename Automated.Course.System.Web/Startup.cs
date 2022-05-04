@@ -48,11 +48,18 @@ namespace Automated.Course.System.Web
 
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ICourseService, CourseService>();
+
+            services.AddScoped<IChapterRepository, ChapterRepository>();
+            services.AddScoped<IChapterService, ChapterService>();
+
+
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<ILanguageService, LanguageService>();
 
             services.AddAutoMapper(typeof(AppMappingProfile));
 
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             services.AddAuthentication()
               .AddOAuth("VK", "VKontakte", config =>
@@ -91,6 +98,9 @@ namespace Automated.Course.System.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
