@@ -13,7 +13,7 @@ namespace Automated.Course.System.DAL.Entities
         }
 
         public int Id { get; set; }
-        public string TaskText { get; set; }
+        public string Text { get; set; }
         public int CourseId { get; set; }
 
         public virtual Course Course { get; set; }

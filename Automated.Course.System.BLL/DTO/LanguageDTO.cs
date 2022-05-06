@@ -9,6 +9,6 @@ namespace Automated.Course.System.BLL.DTO
     public class LanguageDTO
     {
         public int Id { get; set; }
-        public string LanguageName { get; set; }
+        public string Name { get; set; }
     }
 }

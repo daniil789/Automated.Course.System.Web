@@ -22,7 +22,7 @@
                         <h5 class="card-title">@course.Name</h5>
                         <p class="card-text">@course.Description</p>
                         <p class="card-text">Автор курса: @UserManager.FindByIdAsync(course.CreateUserId).Result.UserName</p>
-                        <p class="card-text text-muted"> @LanguageService.GetLanguageById(course.LanguageId).LanguageName</p>
+                        <p class="card-text text-muted"> @LanguageService.GetLanguageById(course.LanguageId).Name</p>
                         <a asp-controller="CoursesList" asp-action="Edit" asp-route-courseId="@course.Id" class="btn btn-primary">Редактировать</a>
                         <a href="#" class="btn btn-primary">Удалить</a>
                     </div>
@@ -64,7 +64,7 @@
                             <select name="language">
                                 @foreach (var item in Model.Languages)
                                 {
-                                    <option value="@item.Id">@item.LanguageName</option>
+                                    <option value="@item.Id">@item.Name</option>
                                 }
                             </select>
                         </p>

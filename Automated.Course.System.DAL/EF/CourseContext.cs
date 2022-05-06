@@ -46,10 +46,10 @@ namespace Automated.Course.System.DAL.EF
                     .HasColumnName("id")
                     .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.AnswerText)
+                entity.Property(e => e.Value)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .HasColumnName("answer_text");
+                    .HasColumnName("value");
 
                 entity.Property(e => e.TaskId).HasColumnName("task_id");
 
@@ -145,10 +145,10 @@ namespace Automated.Course.System.DAL.EF
                     .HasColumnName("id")
                     .UseIdentityAlwaysColumn();
 
-                entity.Property(e => e.LanguageName)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(20)
-                    .HasColumnName("language_name");
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Task>(entity =>
@@ -162,10 +162,10 @@ namespace Automated.Course.System.DAL.EF
                 entity.Property(e => e.CourseId).HasColumnName("course_id");
 
 
-                entity.Property(e => e.TaskText)
+                entity.Property(e => e.Text)
                     .IsRequired()
                     .HasMaxLength(100)
-                    .HasColumnName("task_text");
+                    .HasColumnName("text");
 
                 entity.HasOne(d => d.Course)
                     .WithMany(p => p.Tasks)

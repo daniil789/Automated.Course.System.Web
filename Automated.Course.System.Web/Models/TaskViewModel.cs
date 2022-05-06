@@ -13,8 +13,8 @@ namespace Automated.Course.System.Web.Models
         }
 
         public int Id { get; set; }
-        public string TaskText { get; set; }
-        public int ChapterId { get; set; }
+        public string Text { get; set; }
+        public int CourseId { get; set; }
         public List<AnswerViewModel> Answers { get; set; }
     }
 }

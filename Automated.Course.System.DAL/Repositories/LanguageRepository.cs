@@ -35,7 +35,7 @@ namespace Automated.Course.System.DAL.Repositories
             {
                 while (reader.Read())
                 {
-                    result.Add(new Language { Id = reader.GetInt32(0), LanguageName = reader.GetString(1) });
+                    result.Add(new Language { Id = reader.GetInt32(0), Name = reader.GetString(1) });
                 }
             }
             conn.Close();

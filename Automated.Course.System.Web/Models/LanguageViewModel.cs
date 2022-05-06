@@ -8,6 +8,6 @@ namespace Automated.Course.System.Web.Models
     public class LanguageViewModel
     {
         public int Id { get; set; }
-        public string LanguageName { get; set; }
+        public string Name { get; set; }
     }
 }

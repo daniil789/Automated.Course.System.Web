@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Automated.Course.System.DAL.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20220504151828_init")]
-    partial class init
+    [Migration("20220506103225_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,15 +29,18 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("id")
                         .UseIdentityAlwaysColumn();
 
-                    b.Property<string>("AnswerText")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("answer_text");
+                    b.Property<bool>("IsRight")
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("TaskId")
                         .HasColumnType("integer")
                         .HasColumnName("task_id");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("value");
 
                     b.HasKey("Id");
 
@@ -60,7 +63,7 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("create_user_id");
 
-                    b.Property<string>("Discription")
+                    b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("discription");
@@ -107,11 +110,11 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnName("id")
                         .UseIdentityAlwaysColumn();
 
-                    b.Property<string>("LanguageName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
-                        .HasColumnName("language_name");
+                        .HasColumnName("name");
 
                     b.HasKey("Id");
 
@@ -130,11 +133,11 @@ namespace Automated.Course.System.DAL.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("course_id");
 
-                    b.Property<string>("TaskText")
+                    b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
-                        .HasColumnName("task_text");
+                        .HasColumnName("text");
 
                     b.HasKey("Id");
 

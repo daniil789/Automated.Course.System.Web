@@ -16,12 +16,7 @@ namespace Automated.Course.System.Web.Controllers
             _taskService = taskService;
         }
 
-        public IActionResult AddTask(int chapterId)
-        {
-            var taskVM = new TaskViewModel() { ChapterId = 19, TaskText = "Тестовое задание" };
-
-            return View(taskVM);
-        }
+         
 
         
     }

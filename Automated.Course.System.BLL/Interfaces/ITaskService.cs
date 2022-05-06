@@ -9,7 +9,7 @@ namespace Automated.Course.System.BLL.Interfaces
 {
     public interface ITaskService
     {
-        Task<IEnumerable<TaskDTO>> GetAllByChapterId(int chapterId);
+        Task<IEnumerable<TaskDTO>> GetAllByCourseId(int courseId);
         Task<TaskDTO> GetById(int id);
         Task Create(TaskDTO task);
         Task Delete(int id);

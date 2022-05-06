@@ -23,7 +23,7 @@ namespace Automated.Course.System.DAL.Repositories
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertTask, item.TaskText, item.CourseId), conn))
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.InsertTask, item.Text, item.CourseId), conn))
             {
                 await cmd.ExecuteNonQueryAsync();
             }
@@ -36,19 +36,19 @@ namespace Automated.Course.System.DAL.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Entities.Task>> GetAllByChapterId(int chapterId)
+        public async Task<IEnumerable<Entities.Task>> GetAllByCourseId(int courseId)
         {
             List<Entities.Task> result = new List<Entities.Task>();
 
             var conn = new NpgsqlConnection(_settings.ConnectionString);
             await conn.OpenAsync();
 
-            using (var cmd = new NpgsqlCommand(string.Format(Queries.GetAllByChapterIdQuery, chapterId), conn))
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.GetAllByCourseIdQuery, courseId), conn))
             using (var reader = await cmd.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
-                    result.Add(new Entities.Task { Id = reader.GetInt32(0), TaskText = reader.GetString(1), CourseId = reader.GetInt32(2) });
+                    result.Add(new Entities.Task { Id = reader.GetInt32(0), Text = reader.GetString(1), CourseId = reader.GetInt32(2) });
                 }
             }
             await conn.CloseAsync();

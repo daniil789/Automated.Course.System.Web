@@ -31,10 +31,10 @@ namespace Automated.Course.System.BLL.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<TaskDTO>> GetAllByChapterId(int chapterId)
+        public async Task<IEnumerable<TaskDTO>> GetAllByCourseId(int courseId)
         {
             var result = new List<TaskDTO>();
-            var chapters = await _taskRepository.GetAllByChapterId(chapterId);
+            var chapters = await _taskRepository.GetAllByCourseId(courseId);
 
             foreach (var chapter in chapters)
             {

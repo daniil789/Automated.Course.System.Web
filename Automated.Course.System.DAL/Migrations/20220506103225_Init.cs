@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Automated.Course.System.DAL.Migrations
 {
-    public partial class init : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,7 +53,7 @@ namespace Automated.Course.System.DAL.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    language_name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
+                    name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -239,7 +239,7 @@ namespace Automated.Course.System.DAL.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    task_text = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    text = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     course_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -259,8 +259,9 @@ namespace Automated.Course.System.DAL.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    answer_text = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    task_id = table.Column<int>(type: "integer", nullable: true)
+                    value = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    task_id = table.Column<int>(type: "integer", nullable: true),
+                    IsRight = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

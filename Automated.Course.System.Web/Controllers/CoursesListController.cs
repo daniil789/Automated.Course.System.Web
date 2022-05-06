@@ -21,21 +21,14 @@ namespace Automated.Course.System.Web.Controllers
         private readonly IMapper _mapper;
         private readonly ILanguageService _languageService;
         private readonly UserManager<User> _userManager;
-        private readonly IServiceProvider _serviceProvider;
-        private readonly IChapterService _chapterService;
         private readonly ITaskService _taskService;
 
-        private EditCourseViewModel editVm { get; set; }
-
-        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager,
-            IServiceProvider serviceProvider, IChapterService chapterService, ITaskService taskService)
+        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager, ITaskService taskService)
         {
             _courseService = courseService;
             _mapper = mapper;
             _languageService = languageService;
             _userManager = userManager;
-            _serviceProvider = serviceProvider;
-            _chapterService = chapterService;
             _taskService = taskService;
         }
 
@@ -84,15 +77,30 @@ namespace Automated.Course.System.Web.Controllers
             var languages = new List<LanguageViewModel>();
             var languagesDTO = _languageService.GetAll();
 
+            var tasks = new List<TaskViewModel>();
+            var tasksDTO = await _taskService.GetAllByCourseId(courseId);
+
+            foreach (var taskDTO in tasksDTO)
+            {
+                tasks.Add(_mapper.Map<TaskViewModel>(taskDTO));
+            }
 
             foreach (var language in languagesDTO)
             {
                 languages.Add(_mapper.Map<LanguageViewModel>(language));
             }
 
-            var result = new EditCourseViewModel() { Course = courseVM, Languages = languages};
+            var result = new EditCourseViewModel(tasks, courseVM) { Languages = languages };
 
             return View(result);
+        }
+
+        public IActionResult AddTask(TaskViewModel task)
+        {
+            var taskdt = new TaskDTO { Text = task.Text, CourseId = task.CourseId };
+            _taskService.Create(taskdt);
+
+            return RedirectToAction("Edit", new { task.CourseId });
         }
     }
 }
