@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Automated.Course.System.BLL.DTO
 {
-    class AnswerDTO
+    public class AnswerDTO
     {
         public int Id { get; set; }
         public string Value { get; set; }
         public bool IsRight { get; set; }
+        public int TaskId { get; set; }
     }
 }

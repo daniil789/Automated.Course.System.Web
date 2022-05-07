@@ -29,23 +29,19 @@
 
     @foreach (var task in Model.Course.Tasks)
     {
-        <p>@task.Text</p>
+        <h3><p>@task.Text</p></h3>
+
+        foreach (var answer in task.Answers)
+        {
+            <p>@answer.Value</p>
+        }
+
     }
 
     <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
         Добавить
     </button>
 </div>
-
-
-<script>
-    function addChapter() {
-        let chapters = document.getElementById('chapters');
-        let newChapter = document.createElement('input');
-        newChapter.setAttribute('name', 'Course.Name');
-        chapters.append(newChapter);
-    }
-</script>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -65,16 +61,18 @@
                             <label>Задание:</label><br />
                             <input type="text" name="text" class="form-control" id="exampleInputEmail1" placeholder="Введите текст задания">
                         </p>
-                        <p>
-                            <lable>Вариант ответа</lable>
-                            <input type="text" name="answers[0].answertext" class="form-control" />
-                            <input type="checkbox" value="true" name="answers[0].isright" class="form-control"/>
-                        </p>
-                        <p>
-                            <lable>Вариант ответа</lable>
-                            <input type="text" name="answers[1].answertext" class="form-control" />
-                            <input type="checkbox" name="answers[1].isright" class="form-control" />
-                        </p>
+                        <div id="answers">
+                            <p>
+                                <lable>Вариант ответа</lable>
+                                <input type="text" name="answers[0].value" class="form-control" />
+                                <input type="checkbox" value="true" name="answers[0].isright" class="form-control" />
+                            </p>
+                            <p>
+                                <lable>Вариант ответа</lable>
+                                <input type="text" name="answers[1].value" class="form-control" />
+                                <input type="checkbox" name="answers[1].isright" class="form-control" />
+                            </p>
+                        </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                             <input type="submit" class="btn btn-primary" value="Создать" />
@@ -86,3 +84,12 @@
     </div>
 </div>
 
+
+<script>
+    function addAnswer() {
+        let answers = document.getElementById('answers');
+        let newAnswer = document.createElement('input');
+        newAnswer.setAttribute('name', 'answers[3].value');
+        answers.append(newAnswer);
+    }
+</script>

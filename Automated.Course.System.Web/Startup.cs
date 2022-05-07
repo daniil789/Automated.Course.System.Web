@@ -55,6 +55,8 @@ namespace Automated.Course.System.Web
             services.AddScoped<ITaskRepository, TaskRepository>();
             services.AddScoped<ITaskService, TaskService>();
 
+            services.AddScoped<IAnswerRepository, AnswerRepository>();
+            services.AddScoped<IAnswerService, AnswerService>();
 
             services.AddScoped<ILanguageRepository, LanguageRepository>();
             services.AddScoped<ILanguageService, LanguageService>();

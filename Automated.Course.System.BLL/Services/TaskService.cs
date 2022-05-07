@@ -21,9 +21,9 @@ namespace Automated.Course.System.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task Create(TaskDTO task)
+        public async Task<int> Create(TaskDTO task)
         {
-            await _taskRepository.Create(_mapper.Map<DAL.Entities.Task>(task));
+            return await _taskRepository.Create(_mapper.Map<DAL.Entities.Task>(task));
         }
 
         public Task Delete(int id)

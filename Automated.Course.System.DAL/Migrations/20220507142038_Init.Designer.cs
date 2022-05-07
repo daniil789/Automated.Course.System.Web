@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Automated.Course.System.DAL.Migrations
 {
     [DbContext(typeof(CourseContext))]
-    [Migration("20220506103225_Init")]
+    [Migration("20220507142038_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,8 @@ namespace Automated.Course.System.DAL.Migrations
                         .UseIdentityAlwaysColumn();
 
                     b.Property<bool>("IsRight")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("isright");
 
                     b.Property<int?>("TaskId")
                         .HasColumnType("integer")

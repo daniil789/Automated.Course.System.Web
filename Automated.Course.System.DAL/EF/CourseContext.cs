@@ -51,6 +51,10 @@ namespace Automated.Course.System.DAL.EF
                     .HasMaxLength(100)
                     .HasColumnName("value");
 
+                entity.Property(e => e.IsRight)
+                  .IsRequired()
+                  .HasColumnName("isright");
+
                 entity.Property(e => e.TaskId).HasColumnName("task_id");
 
                 entity.HasOne(d => d.Task)

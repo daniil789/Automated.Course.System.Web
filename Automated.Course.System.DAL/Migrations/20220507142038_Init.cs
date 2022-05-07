@@ -261,7 +261,7 @@ namespace Automated.Course.System.DAL.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     value = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     task_id = table.Column<int>(type: "integer", nullable: true),
-                    IsRight = table.Column<bool>(type: "boolean", nullable: false)
+                    isright = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

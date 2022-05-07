@@ -19,6 +19,9 @@ namespace Automated.Course.System.DAL
         public static string InsertChapter = "Insert into chapters(name, discription, course_id) values ('{0}', '{1}', {2})";
 
         public static string GetAllByCourseIdQuery = "SELECT Id, text, course_id FROM Tasks WHERE course_id = {0}";
-        public static string InsertTask = "Insert into tasks(text,course_id) values ('{0}',{1})";
+        public static string InsertTask = "Insert into tasks(text,course_id) values ('{0}',{1}) RETURNING id;";
+
+        public static string GetAllByTaskIdQuery = "SELECT Id, value, task_id, isright FROM answers WHERE task_id = {0}";
+        public static string InsertAnswer = "Insert into answers(value, task_id, isright) values ('{0}',{1}, {2});";
     }
 }

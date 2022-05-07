@@ -28,7 +28,8 @@ namespace Automated.Course.System.DAL.Migrations
                         .UseIdentityAlwaysColumn();
 
                     b.Property<bool>("IsRight")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("isright");
 
                     b.Property<int?>("TaskId")
                         .HasColumnType("integer")

@@ -22,16 +22,20 @@ namespace Automated.Course.System.Web.Controllers
         private readonly ILanguageService _languageService;
         private readonly UserManager<User> _userManager;
         private readonly ITaskService _taskService;
+        private readonly IAnswerService _answerService;
 
-        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager, ITaskService taskService)
+        public CoursesListController(ICourseService courseService, IMapper mapper, ILanguageService languageService, UserManager<User> userManager, ITaskService taskService
+            , IAnswerService answerService)
         {
             _courseService = courseService;
             _mapper = mapper;
             _languageService = languageService;
             _userManager = userManager;
             _taskService = taskService;
+            _answerService = answerService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> MyCourses()
         {
             var languages = new List<LanguageViewModel>();
@@ -56,6 +60,7 @@ namespace Automated.Course.System.Web.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "teacher")]
         [HttpPost]
         public async Task<IActionResult> AddCourse(string name, string description, int language)
         {
@@ -68,6 +73,7 @@ namespace Automated.Course.System.Web.Controllers
             return RedirectToAction("MyCourses", "CoursesList");
         }
 
+        [Authorize(Roles = "teacher")]
         [HttpGet]
         public async Task<IActionResult> Edit(int courseId)
         {
@@ -85,6 +91,20 @@ namespace Automated.Course.System.Web.Controllers
                 tasks.Add(_mapper.Map<TaskViewModel>(taskDTO));
             }
 
+            foreach (var task in tasks)
+            {
+                var answersDTO = await _answerService.GetAllByTaskId(task.Id);
+                var answers = new List<AnswerViewModel>();
+
+                foreach (var answerDTO in answersDTO)
+                {
+                    answers.Add(_mapper.Map<AnswerViewModel>(answerDTO));
+                }
+
+                task.Answers = answers;
+            }
+
+
             foreach (var language in languagesDTO)
             {
                 languages.Add(_mapper.Map<LanguageViewModel>(language));
@@ -95,10 +115,20 @@ namespace Automated.Course.System.Web.Controllers
             return View(result);
         }
 
-        public IActionResult AddTask(TaskViewModel task)
+        [Authorize(Roles = "teacher")]
+        [HttpPost]
+        public async Task<IActionResult> AddTask(TaskViewModel task)
         {
-            var taskdt = new TaskDTO { Text = task.Text, CourseId = task.CourseId };
-            _taskService.Create(taskdt);
+            var taskDTO = new TaskDTO { Text = task.Text, CourseId = task.CourseId };
+            var taskId = await _taskService.Create(taskDTO);
+
+            foreach (var answer in task.Answers)
+            {
+                var answerDTO = new AnswerDTO() { Value = answer.Value, IsRight = answer.IsRight, TaskId = taskId };
+                await _answerService.Create(answerDTO);
+
+            }
+
 
             return RedirectToAction("Edit", new { task.CourseId });
         }

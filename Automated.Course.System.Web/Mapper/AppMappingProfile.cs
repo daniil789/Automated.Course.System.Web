@@ -25,6 +25,10 @@ namespace Automated.Course.System.Web.Mapper
             CreateMap<TaskDTO, DAL.Entities.Task>();
             CreateMap<TaskDTO, TaskViewModel>();
 
+            CreateMap<DAL.Entities.Answer, AnswerDTO>();
+            CreateMap<AnswerDTO, DAL.Entities.Answer>();
+            CreateMap<AnswerDTO, AnswerViewModel>();
+
 
             CreateMap<DAL.Entities.Language, LanguageDTO>();
             CreateMap<LanguageDTO, LanguageViewModel>();

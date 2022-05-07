@@ -10,7 +10,7 @@ namespace Automated.Course.System.DAL.Interfaces
     {
         Task<IEnumerable<Entities.Task>> GetAllByCourseId(int courseId);
         Task<Entities.Task> GetById(int id);
-        Task Create(Entities.Task item);
+        Task<int> Create(Entities.Task item);
         Task Update(Entities.Task item);
         Task Delete(int id);
     }
