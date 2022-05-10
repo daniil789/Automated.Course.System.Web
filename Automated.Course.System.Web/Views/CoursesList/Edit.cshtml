@@ -73,11 +73,13 @@
                                 <input type="checkbox" name="answers[1].isright" class="form-control" />
                             </p>
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                             <input type="submit" class="btn btn-primary" value="Создать" />
                         </div>
                     </form>
+                    <button value="Добавить" onclick="addAnswer()">Добавить</button>
                 </div>
             </div>
         </div>
@@ -86,10 +88,17 @@
 
 
 <script>
+    let i = 2;
     function addAnswer() {
         let answers = document.getElementById('answers');
+
         let newAnswer = document.createElement('input');
-        newAnswer.setAttribute('name', 'answers[3].value');
-        answers.append(newAnswer);
+        newAnswer.setAttribute("class", "form-control");
+        let newP = document.createElement('p');
+
+        newP.appendChild(newAnswer);
+        newAnswer.setAttribute('name', 'answers[' + i + '].value');
+        answers.append(newP);
+        i++;
     }
 </script>

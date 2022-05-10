@@ -32,5 +32,8 @@ namespace Automated.Course.System.Web.Models
 
         [Display(Name = "Дата рождения")]
         public DateTime Birthday { get; set; }
+
+        [Display(Name = "Я хочу:")]
+        public string Role { get; set; }
     }
 }

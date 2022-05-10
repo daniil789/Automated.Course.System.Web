@@ -46,9 +46,10 @@ namespace Automated.Course.System.Web.Controllers
                 languages.Add(_mapper.Map<LanguageViewModel>(language));
             }
 
-
             var coursesListVM = new List<CourseViewModel>();
-            var coursesDTO = await _courseService.GetAll();
+
+            var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
+            var coursesDTO = await _courseService.GetAllByUserId(curUser.Id);
 
             foreach (var course in coursesDTO)
             {

@@ -64,6 +64,26 @@ namespace Automated.Course.System.DAL.Repositories
             return result;
         }
 
+        public async Task<IEnumerable<Entities.Course>> GetAllByUserId(string userId)
+        {
+            List<Entities.Course> result = new List<Entities.Course>();
+
+            var conn = new NpgsqlConnection(_settings.ConnectionString);
+            await conn.OpenAsync();
+
+            using (var cmd = new NpgsqlCommand(string.Format(Queries.GetAllCoursesByTeacherIdQuery, userId), conn))
+            using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    result.Add(new Entities.Course { Id = reader.GetInt32(0), Name = reader.GetString(1), Description = reader.GetString(2), LanguageId = reader.GetInt32(3), CreateUserId = reader.GetString(4) });
+                }
+            }
+            await conn.CloseAsync();
+
+            return result;
+        }
+
         public async Task<Entities.Course> GetById(int id)
         {
             var result = new Entities.Course();

@@ -9,6 +9,7 @@ namespace Automated.Course.System.DAL.Interfaces
     public interface ICourseRepository
     {
         Task<IEnumerable<Entities.Course>> GetAll();
+        Task<IEnumerable<Entities.Course>> GetAllByUserId(string userId);
         Task<Entities.Course> GetById(int id);
         Task Create(Entities.Course item);
         Task Update(Entities.Course item);

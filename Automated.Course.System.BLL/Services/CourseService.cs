@@ -44,6 +44,19 @@ namespace Automated.Course.System.BLL.Services
             return result;
         }
 
+        public async Task<IEnumerable<CourseDTO>> GetAllByUserId(string userId)
+        {
+            var result = new List<CourseDTO>();
+            var courses = await _courseRepository.GetAllByUserId(userId);
+
+            foreach (var course in courses)
+            {
+                result.Add(_mapper.Map<CourseDTO>(course));
+            }
+
+            return result;
+        }
+
         public async Task<CourseDTO> GetById(int id)
         {
            var course = await _courseRepository.GetById(id);

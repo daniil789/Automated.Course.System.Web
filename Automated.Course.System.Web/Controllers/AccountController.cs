@@ -38,12 +38,15 @@ namespace Automated.Course.System.Web.Controllers
                 // добавляем пользователя
                 var result = await _userManager.CreateAsync(user, model.Password);
 
-                var identityResult = await _userManager.AddToRoleAsync(user, "teacher");
-                if (result.Succeeded && identityResult.Succeeded)
+                if (result.Succeeded)
                 {
-                    // установка куки
-                    await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    var identityResult = await _userManager.AddToRoleAsync(user, model.Role);
+                    if (identityResult.Succeeded)
+                    {
+                        // установка куки
+                        await _signInManager.SignInAsync(user, false);
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
                 else
                 {
@@ -151,8 +154,8 @@ namespace Automated.Course.System.Web.Controllers
             return View(model);
         }
 
-     
-         
+
+
         public async Task<IActionResult> Logout()
         {
             // удаляем аутентификационные куки
