@@ -1,6 +1,6 @@
 ﻿@inject Automated.Course.System.BLL.Interfaces.ILanguageService LanguageService
 @inject Microsoft.AspNetCore.Identity.UserManager<Automated.Course.System.DAL.Entities.User> UserManager
-@model CoursesListViewModel
+@model List<CourseViewModel>
 @{
     ViewData["Title"] = "Courses";
 }
@@ -12,10 +12,10 @@
     </button>
 }
 
-@if (Model.Courses.Count != 0)
+@if (Model.Count != 0)
 {
     <div class="row">
-        @foreach (var course in Model.Courses)
+        @foreach (var course in Model)
         {
             <div class="col-sm-6">
                 <div class="card" style="width: 18rem;">
@@ -41,7 +41,7 @@
         }
     </div>
 }
-@if (Model.Courses.Count == 0)
+@if (Model.Count == 0)
 {
     <p class="display-4">У вас пока нет курсов</p>
 }
@@ -72,7 +72,7 @@
                         <p>
                             <label>Язык:</label><br />
                             <select name="language">
-                                @foreach (var item in Model.Languages)
+                                @foreach (var item in LanguageService.GetAll())
                                 {
                                     <option value="@item.Id">@item.Name</option>
                                 }

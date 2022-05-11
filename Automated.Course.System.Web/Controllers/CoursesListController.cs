@@ -44,15 +44,11 @@ namespace Automated.Course.System.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> MyCourses()
         {
-            var languages = _mapper.MapList<LanguageViewModel>(_languageService.GetAll());
-
             var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
-            var coursesDTO = await _courseService.GetAllByUserId(curUser.Id);
-            var coursesListVM = _mapper.MapList<CourseViewModel>(coursesDTO);         
-         
-            var result = new CoursesListViewModel(coursesListVM, languages);
 
-            return View(result);
+            var coursesListVM = _mapper.MapList<CourseViewModel>(await _courseService.GetAllByUserId(curUser.Id));         
+
+            return View(coursesListVM);
         }
 
         [Authorize(Roles = "teacher")]
