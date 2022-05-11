@@ -38,8 +38,7 @@ namespace Automated.Course.System.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = _mapper.MapList<CourseViewModel>(await _courseService.GetAll());
-            return View(result);
+            return View(_mapper.MapList<CourseViewModel>(await _courseService.GetAll()));
         }
 
         [HttpGet]
