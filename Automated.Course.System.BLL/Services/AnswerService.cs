@@ -3,7 +3,7 @@ using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Entities;
 using Automated.Course.System.DAL.Interfaces;
-using Automated.Course.System.Web.Mapper;
+using Automated.Course.System.MapperExtension;
 using System;
 using System.Collections.Generic;
 using System.Linq;

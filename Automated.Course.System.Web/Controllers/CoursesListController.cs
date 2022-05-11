@@ -2,6 +2,7 @@
 using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Entities;
+using Automated.Course.System.MapperExtension;
 using Automated.Course.System.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Automated.Course.System.Web.Mapper;
 
 namespace Automated.Course.System.Web.Controllers
 {

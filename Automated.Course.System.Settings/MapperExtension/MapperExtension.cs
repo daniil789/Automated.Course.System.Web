@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Automated.Course.System.Web.Mapper
+namespace Automated.Course.System.MapperExtension
 {
     public static class MapperExtension
     {
