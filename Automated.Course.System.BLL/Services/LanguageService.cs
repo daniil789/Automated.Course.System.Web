@@ -3,6 +3,7 @@ using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Interfaces;
 using Automated.Course.System.Settings.Extensions;
+using Automated.Course.System.Web.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,17 +25,7 @@ namespace Automated.Course.System.BLL.Services
 
         public List<LanguageDTO> GetAll()
         {
-            var result = new List<LanguageDTO>();
-            var languages = _languageRepository.GetAll();
-
-            foreach (var language in languages)
-            {
-                result.Add(_mapper.Map<LanguageDTO>(language));
-            }
-
-            return result;
-
-
+            return _mapper.MapList<LanguageDTO>(_languageRepository.GetAll());
         }
 
         public LanguageDTO GetLanguageById(int id)

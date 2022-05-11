@@ -2,6 +2,7 @@
 using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Interfaces;
+using Automated.Course.System.Web.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,33 +34,17 @@ namespace Automated.Course.System.BLL.Services
 
         public async Task<IEnumerable<CourseDTO>> GetAll()
         {
-            var result = new List<CourseDTO>();
-            var courses = await _courseRepository.GetAll();
-
-            foreach (var course in courses)
-            {
-                result.Add(_mapper.Map<CourseDTO>(course));
-            }
-
-            return result;
+            return _mapper.MapList<CourseDTO>(await _courseRepository.GetAll());
         }
 
         public async Task<IEnumerable<CourseDTO>> GetAllByUserId(string userId)
         {
-            var result = new List<CourseDTO>();
-            var courses = await _courseRepository.GetAllByUserId(userId);
-
-            foreach (var course in courses)
-            {
-                result.Add(_mapper.Map<CourseDTO>(course));
-            }
-
-            return result;
+            return _mapper.MapList<CourseDTO>(await _courseRepository.GetAllByUserId(userId));
         }
 
         public async Task<CourseDTO> GetById(int id)
         {
-           var course = await _courseRepository.GetById(id);
+            var course = await _courseRepository.GetById(id);
 
             return _mapper.Map<CourseDTO>(course);
 

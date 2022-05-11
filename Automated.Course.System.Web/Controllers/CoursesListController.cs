@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Automated.Course.System.Web.Mapper;
 
 namespace Automated.Course.System.Web.Controllers
 {
@@ -37,36 +38,19 @@ namespace Automated.Course.System.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = new List<CourseViewModel>();
-            var coursesDTO = await _courseService.GetAll();
-
-            foreach (var course in coursesDTO)
-                result.Add(new CourseViewModel { Id = course.Id, CreateUserId = course.CreateUserId, Description = course.Description, LanguageId = course.LanguageId, Name = course.Name });
-
+            var result = _mapper.MapList<CourseViewModel>(await _courseService.GetAll());
             return View(result);
         }
 
         [HttpGet]
         public async Task<IActionResult> MyCourses()
         {
-            var languages = new List<LanguageViewModel>();
-            var languagesDTO = _languageService.GetAll();
-
-            foreach (var language in languagesDTO)
-            {
-                languages.Add(_mapper.Map<LanguageViewModel>(language));
-            }
-
-            var coursesListVM = new List<CourseViewModel>();
+            var languages = _mapper.MapList<LanguageViewModel>(_languageService.GetAll());
 
             var curUser = await _userManager.FindByNameAsync(User.Identity.Name);
             var coursesDTO = await _courseService.GetAllByUserId(curUser.Id);
-
-            foreach (var course in coursesDTO)
-            {
-                coursesListVM.Add(_mapper.Map<CourseViewModel>(course));
-            }
-
+            var coursesListVM = _mapper.MapList<CourseViewModel>(coursesDTO);         
+         
             var result = new CoursesListViewModel(coursesListVM, languages);
 
             return View(result);
@@ -92,34 +76,15 @@ namespace Automated.Course.System.Web.Controllers
             var courseDTO = await _courseService.GetById(courseId);
             var courseVM = _mapper.Map<CourseViewModel>(courseDTO);
 
-            var languages = new List<LanguageViewModel>();
-            var languagesDTO = _languageService.GetAll();
+            var languages =_mapper.MapList<LanguageViewModel>(_languageService.GetAll());
 
-            var tasks = new List<TaskViewModel>();
-            var tasksDTO = await _taskService.GetAllByCourseId(courseId);
-
-            foreach (var taskDTO in tasksDTO)
-            {
-                tasks.Add(_mapper.Map<TaskViewModel>(taskDTO));
-            }
+            var tasks = _mapper.MapList<TaskViewModel>(await _taskService.GetAllByCourseId(courseId));
 
             foreach (var task in tasks)
             {
-                var answersDTO = await _answerService.GetAllByTaskId(task.Id);
-                var answers = new List<AnswerViewModel>();
-
-                foreach (var answerDTO in answersDTO)
-                {
-                    answers.Add(_mapper.Map<AnswerViewModel>(answerDTO));
-                }
+                var answers = _mapper.MapList<AnswerViewModel>(await _answerService.GetAllByTaskId(task.Id));
 
                 task.Answers = answers;
-            }
-
-
-            foreach (var language in languagesDTO)
-            {
-                languages.Add(_mapper.Map<LanguageViewModel>(language));
             }
 
             var result = new EditCourseViewModel(tasks, courseVM) { Languages = languages };
@@ -140,7 +105,6 @@ namespace Automated.Course.System.Web.Controllers
                 await _answerService.Create(answerDTO);
 
             }
-
 
             return RedirectToAction("Edit", new { task.CourseId });
         }

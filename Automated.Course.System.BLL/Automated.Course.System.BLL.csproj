@@ -6,11 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Automated.Course.System.DAL\Automated.Course.System.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <ProjectReference Include="..\Automated.Course.System.Settings\Automated.Course.System.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

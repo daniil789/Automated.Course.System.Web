@@ -3,6 +3,7 @@ using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Entities;
 using Automated.Course.System.DAL.Interfaces;
+using Automated.Course.System.Web.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,15 +35,7 @@ namespace Automated.Course.System.BLL.Services
 
         public async Task<IEnumerable<AnswerDTO>> GetAllByTaskId(int taskId)
         {
-            var answersDTO = new List<AnswerDTO>();
-            var answers = await _answerRepository.GetAllByTaskId(taskId);
-
-            foreach (var answer in answers)
-            {
-                answersDTO.Add(_mapper.Map<AnswerDTO>(answer));
-            }
-
-            return answersDTO;
+            return _mapper.MapList<AnswerDTO>(await _answerRepository.GetAllByTaskId(taskId));
         }
 
         public Task<AnswerDTO> GetById(int id)

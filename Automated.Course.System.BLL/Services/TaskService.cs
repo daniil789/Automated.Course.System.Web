@@ -2,6 +2,7 @@
 using Automated.Course.System.BLL.DTO;
 using Automated.Course.System.BLL.Interfaces;
 using Automated.Course.System.DAL.Interfaces;
+using Automated.Course.System.Web.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,15 +34,7 @@ namespace Automated.Course.System.BLL.Services
 
         public async Task<IEnumerable<TaskDTO>> GetAllByCourseId(int courseId)
         {
-            var result = new List<TaskDTO>();
-            var chapters = await _taskRepository.GetAllByCourseId(courseId);
-
-            foreach (var chapter in chapters)
-            {
-                result.Add(_mapper.Map<TaskDTO>(chapter));
-            }
-
-            return result;
+            return _mapper.MapList<TaskDTO>(await _taskRepository.GetAllByCourseId(courseId));
         }
 
         public Task<TaskDTO> GetById(int id)
