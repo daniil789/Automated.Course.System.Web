@@ -1,0 +1,33 @@
+﻿@inject Automated.Course.System.BLL.Interfaces.ILanguageService LanguageService
+@inject Microsoft.AspNetCore.Identity.UserManager<Automated.Course.System.DAL.Entities.User> UserManager
+@model List<CourseViewModel>
+
+@if (Model.Count != 0)
+{
+    <div class="row">
+        @foreach (var course in Model)
+        {
+            <div class="col-sm-6">
+                <div class="card" style="width: 18rem;">
+                    <h5 class="card-header">Featured</h5>
+                    <img class="card-img-top" src="~/Assets/Course.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">@course.Name</h5>
+                        <p class="card-text">@course.Description</p>
+                        <p class="card-text">Автор курса: @UserManager.FindByIdAsync(course.CreateUserId).Result.UserName</p>
+                        <p class="card-text text-muted"> @LanguageService.GetLanguageById(course.LanguageId).Name</p>
+                        @if (User.IsInRole("student"))
+                        {
+                            <a href="#" class="btn btn-primary">Пройти курс</a>
+                            <a href="#" class="btn btn-primary">Добавить в "Мои курсы"</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+@if (Model.Count == 0)
+{
+    <p class="display-4">У вас пока нет курсов</p>
+}
