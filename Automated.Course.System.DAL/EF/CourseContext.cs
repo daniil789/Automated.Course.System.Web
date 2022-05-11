@@ -60,7 +60,7 @@ namespace Automated.Course.System.DAL.EF
                 entity.HasOne(d => d.Task)
                     .WithMany(p => p.Answers)
                     .HasForeignKey(d => d.TaskId)
-                    .HasConstraintName("fk_answers_task");
+                    .HasConstraintName("fk_answers_task").OnDelete(DeleteBehavior.Cascade);
             });
 
             //modelBuilder.Entity<Chapter>(entity =>
@@ -175,7 +175,7 @@ namespace Automated.Course.System.DAL.EF
                     .WithMany(p => p.Tasks)
                     .HasForeignKey(d => d.CourseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_tasks_course");
+                    .HasConstraintName("fk_tasks_course").OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<User>(entity =>
