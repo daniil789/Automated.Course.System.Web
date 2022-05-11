@@ -35,6 +35,17 @@ namespace Automated.Course.System.Web.Controllers
             _answerService = answerService;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var result = new List<CourseViewModel>();
+            var coursesDTO = await _courseService.GetAll();
+
+            foreach (var course in coursesDTO)
+                result.Add(new CourseViewModel { Id = course.Id, CreateUserId = course.CreateUserId, Description = course.Description, LanguageId = course.LanguageId, Name = course.Name });
+
+            return View(result);
+        }
+
         [HttpGet]
         public async Task<IActionResult> MyCourses()
         {
